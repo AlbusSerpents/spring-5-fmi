@@ -9,8 +9,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import static com.ddd.books.in.spring.configuration.security.SecurityRoles.ADMIN;
-import static com.ddd.books.in.spring.configuration.security.SecurityRoles.USER;
+import static com.ddd.books.in.spring.configuration.security.SecurityRole.ADMIN;
+import static com.ddd.books.in.spring.configuration.security.SecurityRole.USER;
 import static org.springframework.http.HttpMethod.OPTIONS;
 
 @Configuration

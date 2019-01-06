@@ -10,7 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import static com.ddd.books.in.spring.auth.PasswordEncoder.encodePassword;
-import static com.ddd.books.in.spring.configuration.security.SecurityRoles.USER;
+import static com.ddd.books.in.spring.configuration.security.SecurityRole.USER;
 import static java.util.Collections.singletonList;
 import static java.util.UUID.randomUUID;
 
