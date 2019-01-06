@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import static com.ddd.books.in.spring.configuration.security.CryptoUtils.encodePassword;
 import static com.ddd.books.in.spring.configuration.security.SecurityRoles.USER;
 import static java.util.Collections.singletonList;
 import static java.util.UUID.randomUUID;
@@ -42,8 +43,10 @@ public class UsersAuthenticationProvider implements AuthenticationProvider {
 
     private boolean validateCredentials(final Authentication authentication) {
         final String username = authentication.getName();
-        final Object password = authentication.getCredentials();
-        return EXPECTED_USERNAME.equals(username) && EXPECTED_PASSWORD.equals(password);
+        final String password = (String) authentication.getCredentials();
+        final String encodedPassword = encodePassword(password);
+
+        return EXPECTED_USERNAME.equals(username) && EXPECTED_PASSWORD.equals(encodedPassword);
     }
 
     @Override
