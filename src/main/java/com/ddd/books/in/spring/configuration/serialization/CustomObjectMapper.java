@@ -1,4 +1,4 @@
-package com.ddd.books.in.spring.configuration.Serialization;
+package com.ddd.books.in.spring.configuration.serialization;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;
