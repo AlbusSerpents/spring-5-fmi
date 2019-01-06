@@ -9,9 +9,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import static com.ddd.books.in.spring.configuration.security.SecurityRole.ADMIN;
 import static com.ddd.books.in.spring.configuration.security.SecurityRole.USER;
-import static org.springframework.http.HttpMethod.OPTIONS;
+import static org.springframework.http.HttpMethod.*;
 
 @Configuration
 public class UsersConfigurationAdapter extends WebSecurityConfigurerAdapter {
@@ -47,9 +46,9 @@ public class UsersConfigurationAdapter extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(entryPoint)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/authenticated/**").hasRole(USER.asUserRole())
-                .antMatchers("/admin/**").hasRole(ADMIN.asUserRole())
-                .antMatchers(OPTIONS, ".*").permitAll()
-                .antMatchers(".*").permitAll();
+                .antMatchers(GET, "/status").permitAll()
+                .antMatchers(POST, "/users/login").permitAll()
+                .antMatchers(OPTIONS).permitAll()
+                .antMatchers("/users/**").hasRole(USER.asUserRole());
     }
 }

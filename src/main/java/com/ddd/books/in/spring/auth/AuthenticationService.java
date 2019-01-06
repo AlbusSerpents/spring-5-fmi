@@ -1,7 +1,6 @@
 package com.ddd.books.in.spring.auth;
 
 import com.ddd.books.in.spring.configuration.security.SecurityRole;
-import com.ddd.books.in.spring.func.users.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -29,10 +28,10 @@ public class AuthenticationService {
             final String sessionId) {
         final Authentication authentication = authenticate(username, password);
 
-        final User user = (User) authentication.getPrincipal();
+        final CustomUserDetails details = (CustomUserDetails) authentication.getPrincipal();
         final Set<SecurityRole> roles = getUserRoles(authentication);
 
-        return new UserAuthentication(sessionId, user, roles);
+        return new UserAuthentication(sessionId, details.getUser(), roles);
     }
 
     private Authentication authenticate(final String username, final String password) {
