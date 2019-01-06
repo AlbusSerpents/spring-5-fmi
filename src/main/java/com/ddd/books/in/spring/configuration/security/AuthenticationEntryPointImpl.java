@@ -1,7 +1,7 @@
 package com.ddd.books.in.spring.configuration.security;
 
 import com.ddd.books.in.spring.func.exceptions.ErrorResponse;
-import com.ddd.books.in.spring.configuration.Serialization.CustomObjectMapper;
+import com.ddd.books.in.spring.configuration.serialization.CustomObjectMapper;
 import org.apache.commons.logging.Log;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.AuthenticationException;

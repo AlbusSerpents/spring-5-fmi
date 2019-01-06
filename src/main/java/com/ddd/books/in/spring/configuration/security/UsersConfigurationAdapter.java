@@ -1,5 +1,7 @@
 package com.ddd.books.in.spring.configuration.security;
 
+import com.ddd.books.in.spring.auth.AdminAuthenticationProvider;
+import com.ddd.books.in.spring.auth.UsersAuthenticationProvider;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
