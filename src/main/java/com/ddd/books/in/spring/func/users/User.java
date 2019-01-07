@@ -1,22 +1,28 @@
 package com.ddd.books.in.spring.func.users;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.UUID;
 
+import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
+
 @Data
 @Document
-@NoArgsConstructor
 @AllArgsConstructor
 public class User {
     @Id
-    private UUID id;
-    private String name;
-    private String email;
+    private final UUID id;
 
-    private String password;
+    @Indexed(unique = true)
+    private final String name;
+    @Indexed(unique = true)
+    private final String email;
+
+    @JsonProperty(access = WRITE_ONLY)
+    private final String password;
 }

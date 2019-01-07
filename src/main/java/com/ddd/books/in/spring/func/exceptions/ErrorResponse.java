@@ -11,6 +11,7 @@ public class ErrorResponse {
     public final String message;
 
     public enum ErrorCode {
-        AUTHENTICATION_REQUIRED
+        AUTHENTICATION_REQUIRED,
+        REGISTRATION_FAILED
     }
 }
