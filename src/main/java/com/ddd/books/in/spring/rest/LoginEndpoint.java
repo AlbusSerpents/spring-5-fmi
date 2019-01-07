@@ -31,7 +31,7 @@ public class LoginEndpoint {
     public UserAuthentication login(
             final HttpSession session,
             final @RequestBody @Valid LoginRequest request) {
-        final String username = request.getUsername();
+        final String username = request.getEmail();
         final String password = request.getPassword();
         final String sessionId = session.getId();
 

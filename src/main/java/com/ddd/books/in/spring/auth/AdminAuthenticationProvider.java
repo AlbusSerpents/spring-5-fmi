@@ -18,7 +18,7 @@ import static java.util.UUID.randomUUID;
 @Component
 public class AdminAuthenticationProvider implements AuthenticationProvider {
 
-    private static final String EXPECTED_USERNAME = "admin";
+    private static final String EXPECTED_EMAIL = "admin";
     private static final String EXPECTED_PASSWORD = "1234";
     private static final GrantedAuthority AUTHORITY = new SimpleGrantedAuthority(ADMIN.asRoleAuthorityName());
 
@@ -28,8 +28,7 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
             final User principal = new User(
                     randomUUID(),
                     "name",
-                    "email@example.com",
-                    EXPECTED_USERNAME,
+                    EXPECTED_EMAIL,
                     EXPECTED_PASSWORD);
 
             return new UsernamePasswordAuthenticationToken(
@@ -51,7 +50,7 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
         final String password = (String) authentication.getCredentials();
         final String encodedPassword = encodePassword(password);
 
-        return EXPECTED_USERNAME.equals(username) && EXPECTED_PASSWORD.equals(encodedPassword);
+        return EXPECTED_EMAIL.equals(username) && EXPECTED_PASSWORD.equals(encodedPassword);
     }
 
     @Override

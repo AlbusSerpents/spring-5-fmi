@@ -19,7 +19,7 @@ import static java.util.UUID.randomUUID;
 @Component
 public class UsersAuthenticationProvider implements AuthenticationProvider {
 
-    private static final String EXPECTED_USERNAME = "pesho";
+    private static final String EXPECTED_EMAIL = "pesho@example.com";
     private static final String EXPECTED_PASSWORD = encodePassword("1234");
     private static final List<SecurityRole> ROLES = singletonList(USER);
 
@@ -29,8 +29,7 @@ public class UsersAuthenticationProvider implements AuthenticationProvider {
             final User user = new User(
                     randomUUID(),
                     "name",
-                    "email@example.com",
-                    EXPECTED_USERNAME,
+                    EXPECTED_EMAIL,
                     EXPECTED_PASSWORD);
 
             final CustomUserDetails principal = new CustomUserDetails(user, ROLES);
@@ -53,7 +52,7 @@ public class UsersAuthenticationProvider implements AuthenticationProvider {
         final String password = (String) authentication.getCredentials();
         final String encodedPassword = encodePassword(password);
 
-        return EXPECTED_USERNAME.equals(username) && EXPECTED_PASSWORD.equals(encodedPassword);
+        return EXPECTED_EMAIL.equals(username) && EXPECTED_PASSWORD.equals(encodedPassword);
     }
 
     @Override

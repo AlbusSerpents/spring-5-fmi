@@ -23,10 +23,10 @@ public class AuthenticationService {
     }
 
     public UserAuthentication authenticateUser(
-            final String username,
+            final String email,
             final String password,
             final String sessionId) {
-        final Authentication authentication = authenticate(username, password);
+        final Authentication authentication = authenticate(email, password);
 
         final CustomUserDetails details = (CustomUserDetails) authentication.getPrincipal();
         final Set<SecurityRole> roles = getUserRoles(authentication);
@@ -34,9 +34,9 @@ public class AuthenticationService {
         return new UserAuthentication(sessionId, details.getUser(), roles);
     }
 
-    private Authentication authenticate(final String username, final String password) {
+    private Authentication authenticate(final String email, final String password) {
         final UsernamePasswordAuthenticationToken authRequest =
-                new UsernamePasswordAuthenticationToken(username, password);
+                new UsernamePasswordAuthenticationToken(email, password);
 
         final Authentication authentication = usersProvider.authenticate(authRequest);
         final SecurityContext context = SecurityContextHolder.getContext();
