@@ -34,7 +34,7 @@ configurations {
 }
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-status-mongodb')
+    compile('org.springframework.boot:spring-boot-starter-data-mongodb')
     compile('org.springframework.boot:spring-boot-starter-mail')
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.boot:spring-boot-starter-web')
