@@ -1,7 +1,7 @@
 package com.ddd.books.in.spring.rest;
 
+import com.ddd.books.in.spring.auth.UserAuthentication;
 import com.ddd.books.in.spring.func.users.RegistrationRequest;
-import com.ddd.books.in.spring.func.users.User;
 import com.ddd.books.in.spring.func.users.UsersService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +25,9 @@ public class RegistrationEndpoint {
 
     @ResponseStatus(CREATED)
     @RequestMapping(value = "/register", method = POST)
-    public User register(
+    public UserAuthentication register(
             final HttpSession session,
             final @RequestBody @Valid RegistrationRequest request) {
-        return service.register(request);
+        return service.register(request, session.getId());
     }
 }

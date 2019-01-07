@@ -1,5 +1,7 @@
 package com.ddd.books.in.spring.func.users;
 
+import com.ddd.books.in.spring.auth.AuthenticationService;
+import com.ddd.books.in.spring.auth.UserAuthentication;
 import com.ddd.books.in.spring.func.exceptions.FunctionalException;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +13,18 @@ import static java.util.UUID.randomUUID;
 public class UsersService {
 
     private final UsersRepository repository;
+    private final AuthenticationService authService;
 
-    public UsersService(final UsersRepository repository) {
+    public UsersService(
+            final UsersRepository repository,
+            final AuthenticationService authService) {
         this.repository = repository;
+        this.authService = authService;
     }
 
-    public User register(final RegistrationRequest request) {
+    public UserAuthentication register(
+            final RegistrationRequest request,
+            final String sessionId) {
         final String name = request.getName();
         final String email = request.getEmail();
 
@@ -28,9 +36,13 @@ public class UsersService {
             throw new FunctionalException(REGISTRATION_FAILED, message);
         }
 
-        final String encodedPassword = encodePassword(request.getPassword());
+        final String password = request.getPassword();
+
+        final String encodedPassword = encodePassword(password);
         final User user = new User(randomUUID(), name, email, encodedPassword);
-        return repository.insert(user);
+        final User registered = repository.insert(user);
+
+        return authService.authenticateUser(registered.getEmail(), password, sessionId);
     }
 
     private boolean areTaken(final String name, final String email) {
