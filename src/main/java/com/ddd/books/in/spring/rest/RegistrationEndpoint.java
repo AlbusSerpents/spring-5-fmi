@@ -15,7 +15,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
-@RequestMapping(value = "/v1")
+@RequestMapping(value = "/v1/users")
 public class RegistrationEndpoint {
     private final UsersService service;
 

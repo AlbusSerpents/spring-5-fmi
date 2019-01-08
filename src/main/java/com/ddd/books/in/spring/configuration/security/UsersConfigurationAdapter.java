@@ -46,10 +46,10 @@ public class UsersConfigurationAdapter extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(entryPoint)
                 .and()
                 .authorizeRequests()
-                .antMatchers(GET, "/status").permitAll()
-                .antMatchers(POST, "/v1/login").permitAll()
-                .antMatchers(POST, "/v1/register").permitAll()
                 .antMatchers(OPTIONS).permitAll()
-                .antMatchers("/v1/**").hasRole(USER.asUserRole());
+                .antMatchers(GET, "/status").permitAll()
+                .antMatchers(POST, "/v1/users/login").permitAll()
+                .antMatchers(POST, "/v1/users/register").permitAll()
+                .antMatchers("/v1/users/**").hasRole(USER.asUserRole());
     }
 }

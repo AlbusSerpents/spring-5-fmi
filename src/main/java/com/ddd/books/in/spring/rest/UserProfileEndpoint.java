@@ -15,7 +15,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @RestController
-@RequestMapping("/v1/profile")
+@RequestMapping("/v1/users/profile")
 public class UserProfileEndpoint {
 
     private final UsersService service;
