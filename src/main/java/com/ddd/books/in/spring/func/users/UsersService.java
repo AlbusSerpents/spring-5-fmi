@@ -5,10 +5,14 @@ import com.ddd.books.in.spring.auth.UserAuthentication;
 import com.ddd.books.in.spring.func.exceptions.FunctionalException;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 import static com.ddd.books.in.spring.auth.PasswordEncoder.encodePassword;
+import static com.ddd.books.in.spring.func.exceptions.ErrorResponse.ErrorCode.MISSING;
 import static com.ddd.books.in.spring.func.exceptions.ErrorResponse.ErrorCode.REGISTRATION_FAILED;
 import static java.util.UUID.randomUUID;
 import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 public class UsersService {
@@ -51,5 +55,11 @@ public class UsersService {
                 .findByExisting(name, email)
                 .findAny()
                 .isPresent();
+    }
+
+    public User readById(final UUID userId) {
+        return repository
+                .findById(userId)
+                .orElseThrow(() -> new FunctionalException(MISSING, "No such user exists", NOT_FOUND));
     }
 }

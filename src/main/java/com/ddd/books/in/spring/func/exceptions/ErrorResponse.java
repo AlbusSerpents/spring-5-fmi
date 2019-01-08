@@ -18,6 +18,7 @@ public class ErrorResponse {
         REQUEST_VALIDATION_FAILED,
         AUTHENTICATION_REQUIRED,
         AUTHENTICATION_FAILED,
-        REGISTRATION_FAILED
+        REGISTRATION_FAILED,
+        MISSING
     }
 }

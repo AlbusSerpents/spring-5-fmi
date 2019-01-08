@@ -17,7 +17,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
-@RequestMapping(value = "/v1")
+@RequestMapping("/v1")
 public class LoginEndpoint {
 
     private final AuthenticationService service;
