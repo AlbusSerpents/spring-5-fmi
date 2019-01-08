@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import static com.ddd.books.in.spring.auth.PasswordEncoder.encodePassword;
 import static com.ddd.books.in.spring.func.exceptions.ErrorResponse.ErrorCode.REGISTRATION_FAILED;
 import static java.util.UUID.randomUUID;
+import static org.springframework.http.HttpStatus.CONFLICT;
 
 @Service
 public class UsersService {
@@ -33,7 +34,7 @@ public class UsersService {
                     "User with name %s or email %s already exists",
                     name, email);
 
-            throw new FunctionalException(REGISTRATION_FAILED, message);
+            throw new FunctionalException(REGISTRATION_FAILED, message, CONFLICT);
         }
 
         final String password = request.getPassword();
