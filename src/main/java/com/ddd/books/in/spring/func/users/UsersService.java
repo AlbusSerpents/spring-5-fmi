@@ -8,11 +8,9 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 import static com.ddd.books.in.spring.auth.PasswordEncoder.encodePassword;
-import static com.ddd.books.in.spring.func.exceptions.ErrorResponse.ErrorCode.MISSING;
-import static com.ddd.books.in.spring.func.exceptions.ErrorResponse.ErrorCode.REGISTRATION_FAILED;
+import static com.ddd.books.in.spring.func.exceptions.ErrorResponse.ErrorCode.*;
 import static java.util.UUID.randomUUID;
-import static org.springframework.http.HttpStatus.CONFLICT;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @Service
 public class UsersService {
@@ -61,5 +59,33 @@ public class UsersService {
         return repository
                 .findById(userId)
                 .orElseThrow(() -> new FunctionalException(MISSING, "No such user exists", NOT_FOUND));
+    }
+
+    public User update(
+            final UUID id,
+            final UpdateUserRequest request) {
+        final String newEmail = request.getEmail();
+
+        return repository
+                .findById(id)
+                .map(user -> user.withEmail(newEmail))
+                .map(user -> updatePassword(user, request))
+                .map(repository::save)
+                .orElseThrow(() -> new FunctionalException(PROFILE_UPDATE_FAILED, "Update failed", BAD_REQUEST));
+    }
+
+    private User updatePassword(
+            final User user,
+            final UpdateUserRequest request) {
+        final String oldPassword = request.getOldPassword();
+        final String newPassword = request.getNewPassword();
+
+        if (oldPassword == null || newPassword == null) {
+            return user;
+        } else if (user.getPassword().equals(encodePassword(oldPassword))) {
+            return user.withPassword(encodePassword(newPassword));
+        } else {
+            throw new FunctionalException(PROFILE_UPDATE_FAILED, "Password mismatch", BAD_REQUEST);
+        }
     }
 }

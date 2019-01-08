@@ -25,4 +25,12 @@ public class User {
 
     @JsonProperty(access = WRITE_ONLY)
     private final String password;
+
+    User withEmail(final String email) {
+        return new User(this.id, this.name, email, this.password);
+    }
+
+    User withPassword(final String password) {
+        return new User(this.id, this.name, this.email, password);
+    }
 }

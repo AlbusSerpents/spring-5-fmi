@@ -19,6 +19,7 @@ public class ErrorResponse {
         AUTHENTICATION_REQUIRED,
         AUTHENTICATION_FAILED,
         REGISTRATION_FAILED,
-        MISSING
+        MISSING,
+        PROFILE_UPDATE_FAILED
     }
 }
