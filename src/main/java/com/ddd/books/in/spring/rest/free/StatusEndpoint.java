@@ -1,4 +1,4 @@
-package com.ddd.books.in.spring.rest;
+package com.ddd.books.in.spring.rest.free;
 
 import com.ddd.books.in.spring.func.status.ApplicationStatus;
 import org.springframework.web.bind.annotation.RequestMapping;

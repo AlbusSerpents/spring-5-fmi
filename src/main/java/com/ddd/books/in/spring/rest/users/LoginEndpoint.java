@@ -1,4 +1,4 @@
-package com.ddd.books.in.spring.rest;
+package com.ddd.books.in.spring.rest.users;
 
 import com.ddd.books.in.spring.auth.AuthenticationService;
 import com.ddd.books.in.spring.auth.LoginRequest;
