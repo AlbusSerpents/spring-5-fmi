@@ -1,6 +1,6 @@
 package com.ddd.books.in.spring.auth;
 
-import com.ddd.books.in.spring.func.users.User;
+import com.ddd.books.in.spring.func.librarians.Librarian;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -10,25 +10,24 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import static com.ddd.books.in.spring.auth.PasswordEncoder.encodePassword;
-import static com.ddd.books.in.spring.configuration.security.SecurityRole.ADMIN;
+import static com.ddd.books.in.spring.configuration.security.SecurityRole.LIBRARIAN;
 import static java.util.Collections.singletonList;
 import static java.util.UUID.randomUUID;
 
-// @TODO replace this with a real configuration after that
 @Component
-public class AdminAuthenticationProvider implements AuthenticationProvider {
+public class LibrarianAuthenticationProvider implements AuthenticationProvider {
 
-    private static final String EXPECTED_EMAIL = "admin";
+    private static final String EXPECTED_USERNAME = "lib";
     private static final String EXPECTED_PASSWORD = "1234";
-    private static final GrantedAuthority AUTHORITY = new SimpleGrantedAuthority(ADMIN.asRoleAuthorityName());
+    private static final GrantedAuthority AUTHORITY = new SimpleGrantedAuthority(LIBRARIAN.asRoleAuthorityName());
 
     @Override
     public Authentication authenticate(final Authentication authentication) {
         if (validateCredentials(authentication)) {
-            final User principal = new User(
+            final Librarian principal = new Librarian(
                     randomUUID(),
                     "name",
-                    EXPECTED_EMAIL,
+                    EXPECTED_USERNAME,
                     EXPECTED_PASSWORD);
 
             return new UsernamePasswordAuthenticationToken(
@@ -50,7 +49,7 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
         final String password = (String) authentication.getCredentials();
         final String encodedPassword = encodePassword(password);
 
-        return EXPECTED_EMAIL.equals(username) && EXPECTED_PASSWORD.equals(encodedPassword);
+        return EXPECTED_USERNAME.equals(username) && EXPECTED_PASSWORD.equals(encodedPassword);
     }
 
     @Override

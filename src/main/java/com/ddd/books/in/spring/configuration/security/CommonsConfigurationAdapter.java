@@ -1,5 +1,6 @@
 package com.ddd.books.in.spring.configuration.security;
 
+import com.ddd.books.in.spring.auth.LibrarianAuthenticationProvider;
 import com.ddd.books.in.spring.auth.UsersAuthenticationProvider;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -9,33 +10,37 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
+import static com.ddd.books.in.spring.configuration.security.SecurityRole.LIBRARIAN;
 import static com.ddd.books.in.spring.configuration.security.SecurityRole.USER;
-import static org.springframework.http.HttpMethod.*;
 
-@Order(1)
+@Order(3)
 @Configuration
-public class UsersConfigurationAdapter extends WebSecurityConfigurerAdapter {
+public class CommonsConfigurationAdapter extends WebSecurityConfigurerAdapter {
 
     private final AuthenticationEntryPoint entryPoint;
-    private final AuthenticationProvider provider;
+    private final AuthenticationProvider usersProvider;
+    private final AuthenticationProvider librariansProvider;
 
-    public UsersConfigurationAdapter(
+    public CommonsConfigurationAdapter(
             final AuthenticationEntryPoint entryPoint,
-            final UsersAuthenticationProvider provider) {
+            final UsersAuthenticationProvider usersProvider,
+            final LibrarianAuthenticationProvider librariansProvider) {
         this.entryPoint = entryPoint;
-        this.provider = provider;
+        this.usersProvider = usersProvider;
+        this.librariansProvider = librariansProvider;
     }
 
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         super.configure(auth);
-        auth.authenticationProvider(provider);
+        auth.authenticationProvider(usersProvider);
+        auth.authenticationProvider(librariansProvider);
     }
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http
-                .antMatcher("/v1/users/**")
+                .antMatcher("/v1/common/**")
                 .cors()
                 .and()
                 .formLogin().disable()
@@ -43,10 +48,8 @@ public class UsersConfigurationAdapter extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(entryPoint)
                 .and()
                 .authorizeRequests()
-                .antMatchers(OPTIONS).permitAll()
-                .antMatchers(GET, "/status").permitAll()
-                .antMatchers(POST, "/v1/users/login").permitAll()
-                .antMatchers(POST, "/v1/users/register").permitAll()
-                .antMatchers("/v1/users/**").hasRole(USER.asUserRole());
+                .antMatchers("/v1/common/**").hasAnyRole(LIBRARIAN.asUserRole(), USER.asUserRole());
     }
 }
+
+

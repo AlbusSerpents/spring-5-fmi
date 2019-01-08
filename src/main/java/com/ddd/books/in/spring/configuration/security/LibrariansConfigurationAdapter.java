@@ -1,6 +1,6 @@
 package com.ddd.books.in.spring.configuration.security;
 
-import com.ddd.books.in.spring.auth.UsersAuthenticationProvider;
+import com.ddd.books.in.spring.auth.LibrarianAuthenticationProvider;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -9,19 +9,19 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import static com.ddd.books.in.spring.configuration.security.SecurityRole.USER;
-import static org.springframework.http.HttpMethod.*;
+import static com.ddd.books.in.spring.configuration.security.SecurityRole.LIBRARIAN;
+import static org.springframework.http.HttpMethod.POST;
 
-@Order(1)
+@Order(2)
 @Configuration
-public class UsersConfigurationAdapter extends WebSecurityConfigurerAdapter {
+public class LibrariansConfigurationAdapter extends WebSecurityConfigurerAdapter {
 
     private final AuthenticationEntryPoint entryPoint;
     private final AuthenticationProvider provider;
 
-    public UsersConfigurationAdapter(
+    public LibrariansConfigurationAdapter(
             final AuthenticationEntryPoint entryPoint,
-            final UsersAuthenticationProvider provider) {
+            final LibrarianAuthenticationProvider provider) {
         this.entryPoint = entryPoint;
         this.provider = provider;
     }
@@ -35,7 +35,7 @@ public class UsersConfigurationAdapter extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http
-                .antMatcher("/v1/users/**")
+                .antMatcher("/v1/librarians/**")
                 .cors()
                 .and()
                 .formLogin().disable()
@@ -43,10 +43,8 @@ public class UsersConfigurationAdapter extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(entryPoint)
                 .and()
                 .authorizeRequests()
-                .antMatchers(OPTIONS).permitAll()
-                .antMatchers(GET, "/status").permitAll()
-                .antMatchers(POST, "/v1/users/login").permitAll()
-                .antMatchers(POST, "/v1/users/register").permitAll()
-                .antMatchers("/v1/users/**").hasRole(USER.asUserRole());
+                .antMatchers(POST, "/v1/librarians/login").permitAll()
+                .antMatchers("/v1/librarians/**").hasRole(LIBRARIAN.asUserRole());
     }
 }
+

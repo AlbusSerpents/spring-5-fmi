@@ -9,7 +9,7 @@ import static java.util.Optional.of;
 
 public enum SecurityRole {
     USER,
-    ADMIN;
+    LIBRARIAN;
 
     public String asUserRole() {
         return name();
