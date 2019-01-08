@@ -38,13 +38,13 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-mail')
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.boot:spring-boot-starter-web')
-    compile('org.springframework.boot:spring-boot-starter-jersy')
+    compile('org.springframework.boot:spring-boot-starter-jersey')
     compile('org.springframework.boot:spring-boot-starter-validation')
     compile('org.springframework.session:spring-session-core')
     compile('org.springframework.boot:spring-boot-starter-tomcat')
     compile('com.fasterxml.jackson.core:jackson-core:2.7.5')
 
-    compileOnly('org.projectlombok:lombok')
+    compile('org.projectlombok:lombok:1.18.2')
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('io.projectreactor:reactor-test')
