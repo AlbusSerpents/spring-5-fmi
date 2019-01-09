@@ -35,6 +35,10 @@ public class BooksService {
         return repository.save(book);
     }
 
+    public List<BookInfo> findAll(final BooksSearch search) {
+        return repository.findAll(search);
+    }
+
     public BookDetails findById(final UUID bookId) {
         final Book book = repository
                 .findById(bookId)
