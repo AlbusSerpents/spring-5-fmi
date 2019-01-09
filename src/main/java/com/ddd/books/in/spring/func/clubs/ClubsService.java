@@ -7,10 +7,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
-import static com.ddd.books.in.spring.func.exceptions.ErrorResponse.ErrorCode.CLUB_NAME_ALREADY_TAKEN;
+import static com.ddd.books.in.spring.func.exceptions.ErrorResponse.ErrorCode.*;
 import static java.util.Collections.singletonList;
 import static java.util.UUID.randomUUID;
 import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 public class ClubsService {
@@ -46,5 +47,25 @@ public class ClubsService {
 
     public List<ClubInfo> getAll() {
         return repository.findAllInfo();
+    }
+
+    public void join(
+            final UUID clubId,
+            final UUID userId,
+            final String name) {
+        final Club club = repository
+                .findById(clubId)
+                .orElseThrow(() -> new FunctionalException(MISSING, "Club doesn't exist", NOT_FOUND));
+
+        final MemberInfo member = new MemberInfo(userId, name);
+
+        if (club.getMembers().contains(member)) {
+            throw new FunctionalException(
+                    MEMBER_ALREADY_EXISTS,
+                    "User is already a member of this club");
+        } else {
+            club.getMembers().add(member);
+            repository.save(club);
+        }
     }
 }

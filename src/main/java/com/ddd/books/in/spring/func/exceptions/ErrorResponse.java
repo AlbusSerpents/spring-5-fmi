@@ -19,6 +19,7 @@ public class ErrorResponse {
         MISSING,
         PROFILE_UPDATE_FAILED,
         CLUB_NAME_ALREADY_TAKEN,
-        DELETE_USER_FAILED
+        DELETE_USER_FAILED,
+        MEMBER_ALREADY_EXISTS
     }
 }

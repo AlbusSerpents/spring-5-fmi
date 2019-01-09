@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static java.util.Optional.ofNullable;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
@@ -32,6 +33,12 @@ public class MongoClubsRepository implements ClubsRepository {
     public Optional<Club> findByName(final String name) {
         final Query query = new Query(where("name").is(name));
         final Club club = template.findOne(query, Club.class);
+        return ofNullable(club);
+    }
+
+    @Override
+    public Optional<Club> findById(final UUID id) {
+        final Club club = template.findById(id, Club.class);
         return ofNullable(club);
     }
 
