@@ -2,6 +2,7 @@ package com.ddd.books.in.spring.repos.mongo;
 
 import com.ddd.books.in.spring.func.users.User;
 import com.ddd.books.in.spring.func.users.UsersRepository;
+import com.mongodb.client.result.DeleteResult;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -58,5 +59,12 @@ public class MongoUsersRepository implements UsersRepository {
             final Query query = new Query(where("name").is(name));
             return template.find(query, User.class);
         }
+    }
+
+    @Override
+    public boolean deleteById(final UUID userId) {
+        final Query query = new Query(where("_id").is(userId));
+        final DeleteResult delete = template.remove(query, "user");
+        return delete.getDeletedCount() == 1;
     }
 }

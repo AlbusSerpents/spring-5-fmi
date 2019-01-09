@@ -94,4 +94,12 @@ public class UsersService {
     public List<User> findAll(final String name) {
         return repository.findByName(name);
     }
+
+    public void deleteById(final UUID userId) {
+        final boolean success = repository.deleteById(userId);
+
+        if (!success) {
+            throw new FunctionalException(DELETE_USER_FAILED, "Couldn't delete user", CONFLICT);
+        }
+    }
 }

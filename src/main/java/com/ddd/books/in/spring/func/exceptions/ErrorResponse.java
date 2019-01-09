@@ -18,6 +18,7 @@ public class ErrorResponse {
         REGISTRATION_FAILED,
         MISSING,
         PROFILE_UPDATE_FAILED,
-        CLUB_NAME_ALREADY_TAKEN
+        CLUB_NAME_ALREADY_TAKEN,
+        DELETE_USER_FAILED
     }
 }
