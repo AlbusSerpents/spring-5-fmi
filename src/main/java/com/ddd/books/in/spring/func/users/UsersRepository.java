@@ -16,5 +16,5 @@ public interface UsersRepository {
 
     List<User> findByName(final String name);
 
-    boolean deleteById(final UUID userId);
+    boolean removeById(final UUID userId);
 }

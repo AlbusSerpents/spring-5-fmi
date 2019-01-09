@@ -96,7 +96,7 @@ public class UsersService {
     }
 
     public void deleteById(final UUID userId) {
-        final boolean success = repository.deleteById(userId);
+        final boolean success = repository.removeById(userId);
 
         if (!success) {
             throw new FunctionalException(DELETE_USER_FAILED, "Couldn't delete user", CONFLICT);

@@ -62,9 +62,9 @@ public class MongoUsersRepository implements UsersRepository {
     }
 
     @Override
-    public boolean deleteById(final UUID userId) {
+    public boolean removeById(final UUID userId) {
         final Query query = new Query(where("_id").is(userId));
-        final DeleteResult delete = template.remove(query, "user");
-        return delete.getDeletedCount() == 1;
+        final DeleteResult result = template.remove(query, "user");
+        return result.getDeletedCount() == 1;
     }
 }
