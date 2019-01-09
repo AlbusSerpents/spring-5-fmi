@@ -1,13 +1,10 @@
 package com.ddd.books.in.spring.func.clubs;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
-
 import java.util.Optional;
-import java.util.UUID;
 
-public interface ClubsRepository extends MongoRepository<Club, UUID> {
+public interface ClubsRepository {
 
-    @Query("{name: '?0'}")
+    Club save(final Club club);
+
     Optional<Club> findByName(final String name);
 }
