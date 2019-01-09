@@ -36,11 +36,6 @@ public class ClubsEndpoint {
         return service.create(request, details.getId(), details.getUser().getName());
     }
 
-    @RequestMapping(value = "", method = GET)
-    public List<ClubInfo> getAll(){
-        return service.getAll();
-    }
-
     @ResponseStatus(NO_CONTENT)
     @RequestMapping(value = "/{clubId}/join", method = POST)
     public void join(
