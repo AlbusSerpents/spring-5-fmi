@@ -20,6 +20,8 @@ public class ErrorResponse {
         PROFILE_UPDATE_FAILED,
         CLUB_NAME_ALREADY_TAKEN,
         DELETE_USER_FAILED,
-        MEMBER_ALREADY_EXISTS
+        MEMBER_ALREADY_EXISTS,
+        USER_NOT_A_MEMBER_OF_THE_CLUB,
+        OWNER_CANNOT_LEAVE_CLUB
     }
 }

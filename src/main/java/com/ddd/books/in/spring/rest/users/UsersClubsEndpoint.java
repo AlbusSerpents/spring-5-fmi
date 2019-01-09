@@ -43,4 +43,12 @@ public class UsersClubsEndpoint {
             final @AuthenticationPrincipal CustomUserDetails details) {
         service.join(clubId, details.getId(), details.getUser().getName());
     }
+
+    @ResponseStatus(NO_CONTENT)
+    @RequestMapping(value = "/{clubId}/leave", method = POST)
+    public void leave(
+            final @PathVariable("clubId") UUID clubId,
+            final @AuthenticationPrincipal CustomUserDetails details) {
+        service.leave(clubId, details.getId(), details.getUser().getName());
+    }
 }

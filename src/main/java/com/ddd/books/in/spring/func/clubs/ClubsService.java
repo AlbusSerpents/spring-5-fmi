@@ -71,4 +71,23 @@ public class ClubsService {
                 .findById(clubId)
                 .orElseThrow(() -> new FunctionalException(MISSING, "Club doesn't exist", NOT_FOUND));
     }
+
+    public void leave(final UUID clubId, final UUID userId, final String name) {
+        final Club club = readById(clubId);
+        final MemberInfo member = new MemberInfo(userId, name);
+
+        if (!club.getMembers().contains(member)) {
+            throw new FunctionalException(
+                    USER_NOT_A_MEMBER_OF_THE_CLUB,
+                    "User is not a member of this club");
+        } else if(club.getOwner().equals(member)){
+            throw new FunctionalException(
+                    OWNER_CANNOT_LEAVE_CLUB,
+                    "Owner cannot leave their own club",
+                    CONFLICT);
+        }else{
+            club.getMembers().remove(member);
+            repository.save(club);
+        }
+    }
 }
