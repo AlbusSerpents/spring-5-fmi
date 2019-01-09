@@ -45,7 +45,7 @@ public class ClubsService {
         }
     }
 
-    public List<ClubInfo> getAll() {
+    public List<ClubInfo> readAll() {
         return repository.findAllInfo();
     }
 

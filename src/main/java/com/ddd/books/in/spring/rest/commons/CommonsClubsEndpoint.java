@@ -24,7 +24,7 @@ public class CommonsClubsEndpoint {
 
     @RequestMapping(value = "", method = GET)
     public List<ClubInfo> getAll() {
-        return service.getAll();
+        return service.readAll();
     }
 
     @RequestMapping(value = "/{clubId}", method = GET)
