@@ -32,7 +32,7 @@ public class MongoUsersRepository implements UsersRepository {
     @Override
     public User save(final User user) {
         template.save(user);
-        return findById(user.getId()).orElseThrow(RuntimeException::new);
+        return template.findById(user.getId(), User.class);
     }
 
     @Override
