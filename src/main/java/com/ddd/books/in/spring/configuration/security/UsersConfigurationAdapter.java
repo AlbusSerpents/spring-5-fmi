@@ -44,7 +44,6 @@ public class UsersConfigurationAdapter extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(OPTIONS).permitAll()
-                .antMatchers(GET, "/status").permitAll()
                 .antMatchers(POST, "/v1/users/login").permitAll()
                 .antMatchers(POST, "/v1/users/register").permitAll()
                 .antMatchers("/v1/users/**").hasRole(USER.asUserRole());

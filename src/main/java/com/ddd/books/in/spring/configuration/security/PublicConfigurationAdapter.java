@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
+import static org.springframework.http.HttpMethod.GET;
+
 @Order(4)
 @Configuration
 public class PublicConfigurationAdapter extends WebSecurityConfigurerAdapter {
@@ -34,7 +36,8 @@ public class PublicConfigurationAdapter extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(entryPoint)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll();
+                .antMatchers(GET, "/status").permitAll()
+                .antMatchers("/v1/public").permitAll();
     }
 }
 
