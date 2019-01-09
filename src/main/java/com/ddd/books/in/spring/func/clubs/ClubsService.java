@@ -53,14 +53,13 @@ public class ClubsService {
             final UUID userId,
             final String name) {
         final Club club = readById(clubId);
-        final MemberInfo member = new MemberInfo(userId, name);
 
-        if (club.getMembers().contains(member)) {
+        if (isMember(club, userId)) {
             throw new FunctionalException(
                     MEMBER_ALREADY_EXISTS,
                     "User is already a member of this club");
         } else {
-            club.getMembers().add(member);
+            club.getMembers().add(new MemberInfo(userId, name));
             repository.save(club);
         }
     }
@@ -76,42 +75,65 @@ public class ClubsService {
             final UUID userId,
             final String name) {
         final Club club = readById(clubId);
-        final MemberInfo member = new MemberInfo(userId, name);
 
-        if (!club.getMembers().contains(member)) {
+        if (!isMember(club, userId)) {
             throw new FunctionalException(
                     USER_NOT_A_MEMBER_OF_THE_CLUB,
                     "User is not a member of this club");
-        } else if(club.getOwner().equals(member)){
+        } else if (isOwner(club, userId)) {
             throw new FunctionalException(
                     OWNER_CANNOT_LEAVE_CLUB,
                     "Owner cannot leave their own club",
                     CONFLICT);
-        }else{
-            club.getMembers().remove(member);
+        } else {
+            club.getMembers().remove(new MemberInfo(userId, name));
             repository.save(club);
         }
     }
 
     public void delete(
             final UUID clubId,
-            final UUID userId,
-            final String name) {
+            final UUID userId) {
         final Club club = readById(clubId);
-        final MemberInfo member = new MemberInfo(userId, name);
 
-        if(!club.getOwner().equals(member)){
-            throw new FunctionalException(OPERATION_FORBIDDEN, null, FORBIDDEN);
-        }else{
+        if (isOwner(club, userId)) {
             delete(clubId);
+        } else {
+            throw new FunctionalException(OPERATION_FORBIDDEN, null, FORBIDDEN);
         }
     }
 
     public void delete(final UUID clubId) {
         final boolean success = repository.deleteById(clubId);
 
-        if(!success){
+        if (!success) {
             throw new FunctionalException(OPERATION_FAILED, null, INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public Club update(final UUID clubId, final UUID userId, final UpdateClubRequest request) {
+        final Club club = readById(clubId);
+
+        if (isOwner(club, userId)) {
+            Club newClub = club.withDescription(request.getDescription());
+            return repository.save(newClub);
+        } else {
+            throw new FunctionalException(OPERATION_FORBIDDEN, null, FORBIDDEN);
+        }
+    }
+
+    private boolean isOwner(final Club club, final UUID userId) {
+        return club
+                .getOwner()
+                .getId()
+                .equals(userId);
+    }
+
+    private boolean isMember(final Club club, final UUID userId) {
+        return club
+                .getMembers()
+                .stream()
+                .map(MemberInfo::getId)
+                .anyMatch(userId::equals);
     }
 }

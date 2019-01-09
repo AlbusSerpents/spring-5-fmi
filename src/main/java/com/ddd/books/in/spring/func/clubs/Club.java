@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
 import java.util.UUID;
 
+@SuppressWarnings("WeakerAccess")
 @Data
 @Document
 @NoArgsConstructor
@@ -35,5 +36,9 @@ public class Club {
         @Id
         private UUID id;
         private String name;
+    }
+
+    Club withDescription(final String description) {
+        return new Club(this.id, this.name, description, this.owner, this.members);
     }
 }
