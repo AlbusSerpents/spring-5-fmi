@@ -1,12 +1,10 @@
 package com.ddd.books.in.spring.repos.mongo;
 
-import com.ddd.books.in.spring.func.books.Book;
-import com.ddd.books.in.spring.func.books.BookInfo;
-import com.ddd.books.in.spring.func.books.BooksRepository;
-import com.ddd.books.in.spring.func.books.BooksSearch;
+import com.ddd.books.in.spring.func.books.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -46,5 +44,13 @@ public class MongoBooksRepository implements BooksRepository {
         final Criteria criteria = new Criteria().andOperator(nameCriteria, authorCriteria, yearCriteria);
 
         return template.find(new Query(criteria), BookInfo.class, "book");
+    }
+
+    @Override
+    public void pushRating(final UUID bookId, final BookRatingRequest rating) {
+        final Query query = new Query(where("_id").is(bookId));
+        final Update update = new Update().push("ratings", rating.getRating());
+
+        template.updateFirst(query, update, Book.class);
     }
 }

@@ -23,7 +23,7 @@ public class Book {
     private String description;
     private List<Marker> contents;
 
-    private List<Rating> ratings;
+    private List<Integer> ratings;
     private List<Comment> comments;
 
     @Data
@@ -40,13 +40,5 @@ public class Book {
     public static class Comment {
         private UUID commenterId;
         private String comment;
-    }
-
-    @Data
-    @Document
-    @NoArgsConstructor
-    public static class Rating {
-        private UUID ratedBy;
-        private Integer rating;
     }
 }

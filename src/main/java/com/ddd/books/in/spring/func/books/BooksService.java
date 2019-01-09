@@ -1,6 +1,5 @@
 package com.ddd.books.in.spring.func.books;
 
-import com.ddd.books.in.spring.func.books.Book.Rating;
 import com.ddd.books.in.spring.func.exceptions.FunctionalException;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +43,7 @@ public class BooksService {
                 .findById(bookId)
                 .orElseThrow(() -> bookNotFound(bookId));
 
-        final List<Rating> ratings = book.getRatings();
+        final List<Integer> ratings = book.getRatings();
 
         return new BookDetails(
                 book.getId(),
@@ -61,17 +60,20 @@ public class BooksService {
         return new FunctionalException(MISSING, message, NOT_FOUND);
     }
 
-    private Integer calculateAverageRating(final List<Rating> ratings) {
+    private Integer calculateAverageRating(final List<Integer> ratings) {
         if (!ratings.isEmpty()) {
             final int ratingsSum = ratings
                     .stream()
-                    .map(Rating::getRating)
                     .mapToInt(Integer::intValue)
                     .sum();
-
             return ratingsSum / ratings.size();
         } else {
             return null;
         }
     }
+
+    public void rate(final UUID bookId, final BookRatingRequest rating) {
+        repository.pushRating(bookId, rating);
+    }
+
 }

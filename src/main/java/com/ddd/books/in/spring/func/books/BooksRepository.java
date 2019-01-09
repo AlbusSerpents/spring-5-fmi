@@ -11,4 +11,6 @@ public interface BooksRepository {
     Optional<Book> findById(final UUID bookId);
 
     List<BookInfo> findAll(final BooksSearch search);
+
+    void pushRating(UUID bookId, BookRatingRequest rating);
 }
