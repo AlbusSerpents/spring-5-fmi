@@ -18,11 +18,11 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping("/v1/users")
-public class LoginEndpoint {
+public class UsersLoginEndpoint {
 
     private final AuthenticationService service;
 
-    public LoginEndpoint(final AuthenticationService service) {
+    public UsersLoginEndpoint(final AuthenticationService service) {
         this.service = service;
     }
 

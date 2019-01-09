@@ -20,11 +20,11 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping("/v1/users/clubs")
-public class ClubsEndpoint {
+public class UsersClubsEndpoint {
 
     private final ClubsService service;
 
-    public ClubsEndpoint(final ClubsService service) {
+    public UsersClubsEndpoint(final ClubsService service) {
         this.service = service;
     }
 
