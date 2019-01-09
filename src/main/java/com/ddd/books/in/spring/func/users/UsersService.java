@@ -5,6 +5,7 @@ import com.ddd.books.in.spring.auth.UserAuthentication;
 import com.ddd.books.in.spring.func.exceptions.FunctionalException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 import static com.ddd.books.in.spring.auth.PasswordEncoder.encodePassword;
@@ -43,7 +44,7 @@ public class UsersService {
 
         final String encodedPassword = encodePassword(password);
         final User user = new User(randomUUID(), name, email, encodedPassword);
-        final User registered = repository.insert(user);
+        final User registered = repository.save(user);
 
         return authService.authenticateUser(registered.getEmail(), password, sessionId);
     }
@@ -51,6 +52,7 @@ public class UsersService {
     private boolean areTaken(final String name, final String email) {
         return repository
                 .findByExisting(name, email)
+                .stream()
                 .findAny()
                 .isPresent();
     }
@@ -87,5 +89,9 @@ public class UsersService {
         } else {
             throw new FunctionalException(PROFILE_UPDATE_FAILED, "Password mismatch", BAD_REQUEST);
         }
+    }
+
+    public List<User> findAll(final String name) {
+        return repository.findByName(name);
     }
 }

@@ -1,17 +1,18 @@
 package com.ddd.books.in.spring.func.users;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
-
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Stream;
 
-public interface UsersRepository extends MongoRepository<User, UUID> {
+public interface UsersRepository {
 
-    @Query("{$or: [{name: '?0'}, {email: '?1'}]}")
-    Stream<User> findByExisting(final String name, final String email);
+    Optional<User> findById(final UUID id);
 
-    @Query("{email: '?0'}")
+    User save(final User user);
+
+    List<User> findByExisting(final String name, final String email);
+
     Optional<User> findByEmail(final String email);
+
+    List<User> findByName(final String name);
 }
