@@ -4,6 +4,7 @@ import com.ddd.books.in.spring.func.clubs.Club.MemberInfo;
 import com.ddd.books.in.spring.func.exceptions.FunctionalException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 import static com.ddd.books.in.spring.func.exceptions.ErrorResponse.ErrorCode.CLUB_NAME_ALREADY_TAKEN;
@@ -41,5 +42,9 @@ public class ClubsService {
                     singletonList(owner));
             return repository.save(club);
         }
+    }
+
+    public List<ClubInfo> getAll() {
+        return repository.findAllInfo();
     }
 }
