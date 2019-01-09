@@ -10,8 +10,7 @@ import java.util.UUID;
 import static com.ddd.books.in.spring.func.exceptions.ErrorResponse.ErrorCode.*;
 import static java.util.Collections.singletonList;
 import static java.util.UUID.randomUUID;
-import static org.springframework.http.HttpStatus.CONFLICT;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @Service
 public class ClubsService {
@@ -72,7 +71,10 @@ public class ClubsService {
                 .orElseThrow(() -> new FunctionalException(MISSING, "Club doesn't exist", NOT_FOUND));
     }
 
-    public void leave(final UUID clubId, final UUID userId, final String name) {
+    public void leave(
+            final UUID clubId,
+            final UUID userId,
+            final String name) {
         final Club club = readById(clubId);
         final MemberInfo member = new MemberInfo(userId, name);
 
@@ -88,6 +90,28 @@ public class ClubsService {
         }else{
             club.getMembers().remove(member);
             repository.save(club);
+        }
+    }
+
+    public void delete(
+            final UUID clubId,
+            final UUID userId,
+            final String name) {
+        final Club club = readById(clubId);
+        final MemberInfo member = new MemberInfo(userId, name);
+
+        if(!club.getOwner().equals(member)){
+            throw new FunctionalException(OPERATION_FORBIDDEN, null, FORBIDDEN);
+        }else{
+            delete(clubId);
+        }
+    }
+
+    public void delete(final UUID clubId) {
+        final boolean success = repository.deleteById(clubId);
+
+        if(!success){
+            throw new FunctionalException(OPERATION_FAILED, null, INTERNAL_SERVER_ERROR);
         }
     }
 }

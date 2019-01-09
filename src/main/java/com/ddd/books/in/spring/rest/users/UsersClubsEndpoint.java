@@ -15,6 +15,7 @@ import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -50,5 +51,13 @@ public class UsersClubsEndpoint {
             final @PathVariable("clubId") UUID clubId,
             final @AuthenticationPrincipal CustomUserDetails details) {
         service.leave(clubId, details.getId(), details.getUser().getName());
+    }
+
+    @ResponseStatus(NO_CONTENT)
+    @RequestMapping(value = "/{clubId}", method = DELETE)
+    public void delete(
+            final @PathVariable("clubId") UUID clubId,
+            final @AuthenticationPrincipal CustomUserDetails details) {
+        service.delete(clubId, details.getId(), details.getUser().getName());
     }
 }

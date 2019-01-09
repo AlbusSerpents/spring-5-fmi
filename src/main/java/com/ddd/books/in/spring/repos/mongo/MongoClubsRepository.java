@@ -3,6 +3,7 @@ package com.ddd.books.in.spring.repos.mongo;
 import com.ddd.books.in.spring.func.clubs.Club;
 import com.ddd.books.in.spring.func.clubs.ClubInfo;
 import com.ddd.books.in.spring.func.clubs.ClubsRepository;
+import com.mongodb.client.result.DeleteResult;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
@@ -45,5 +46,12 @@ public class MongoClubsRepository implements ClubsRepository {
     @Override
     public List<ClubInfo> findAllInfo() {
         return template.findAll(ClubInfo.class, "club");
+    }
+
+    @Override
+    public boolean deleteById(final UUID clubId) {
+        final Query query = new Query(where("_id").is(clubId));
+        final DeleteResult delete = template.remove(query, "club");
+        return delete.getDeletedCount() == 1;
     }
 }
