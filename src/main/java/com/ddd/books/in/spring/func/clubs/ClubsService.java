@@ -53,10 +53,7 @@ public class ClubsService {
             final UUID clubId,
             final UUID userId,
             final String name) {
-        final Club club = repository
-                .findById(clubId)
-                .orElseThrow(() -> new FunctionalException(MISSING, "Club doesn't exist", NOT_FOUND));
-
+        final Club club = readById(clubId);
         final MemberInfo member = new MemberInfo(userId, name);
 
         if (club.getMembers().contains(member)) {
@@ -67,5 +64,11 @@ public class ClubsService {
             club.getMembers().add(member);
             repository.save(club);
         }
+    }
+
+    public Club readById(final UUID clubId) {
+        return repository
+                .findById(clubId)
+                .orElseThrow(() -> new FunctionalException(MISSING, "Club doesn't exist", NOT_FOUND));
     }
 }
