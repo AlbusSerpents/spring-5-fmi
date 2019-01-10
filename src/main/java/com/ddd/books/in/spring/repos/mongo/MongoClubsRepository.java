@@ -5,6 +5,7 @@ import com.ddd.books.in.spring.func.clubs.ClubInfo;
 import com.ddd.books.in.spring.func.clubs.ClubsRepository;
 import com.mongodb.client.result.DeleteResult;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
@@ -54,4 +55,12 @@ public class MongoClubsRepository implements ClubsRepository {
         final DeleteResult delete = template.remove(query, "club");
         return delete.getDeletedCount() == 1;
     }
+
+    @Override
+    public List<ClubInfo> findMyClubs(final UUID userId) {
+        final Criteria criteria = where("members").elemMatch(where("_id").is(userId));
+        return template.find(new Query(criteria), ClubInfo.class, "club");
+    }
+
+
 }

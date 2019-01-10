@@ -15,4 +15,6 @@ public interface ClubsRepository {
     List<ClubInfo> findAllInfo();
 
     boolean deleteById(UUID clubId);
+
+    List<ClubInfo> findMyClubs(UUID userId);
 }

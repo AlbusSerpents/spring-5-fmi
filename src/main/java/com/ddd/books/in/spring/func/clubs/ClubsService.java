@@ -2,6 +2,8 @@ package com.ddd.books.in.spring.func.clubs;
 
 import com.ddd.books.in.spring.func.clubs.Club.MemberInfo;
 import com.ddd.books.in.spring.func.exceptions.FunctionalException;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +12,7 @@ import java.util.UUID;
 import static com.ddd.books.in.spring.func.exceptions.ErrorResponse.ErrorCode.*;
 import static java.util.Collections.singletonList;
 import static java.util.UUID.randomUUID;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.http.HttpStatus.*;
 
 @Service
@@ -135,5 +138,9 @@ public class ClubsService {
                 .stream()
                 .map(MemberInfo::getId)
                 .anyMatch(userId::equals);
+    }
+
+    public List<ClubInfo> readMyClubs(final UUID userId) {
+        return repository.findMyClubs(userId);
     }
 }
