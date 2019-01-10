@@ -1,5 +1,6 @@
 package com.ddd.books.in.spring.func.books;
 
+import com.ddd.books.in.spring.func.books.Book.Comment;
 import com.ddd.books.in.spring.func.exceptions.FunctionalException;
 import org.springframework.stereotype.Service;
 
@@ -76,4 +77,18 @@ public class BooksService {
         repository.pushRating(bookId, rating);
     }
 
+    public List<Comment> commentOnBook(
+            final UUID bookId,
+            final NewCommentRequest request) {
+        final Book book = repository
+                .findById(bookId)
+                .orElseThrow(() -> bookNotFound(bookId));
+
+        final Comment newComment = request.toComment();
+        final Book newBook = book.addComment(newComment);
+
+        return repository
+                .save(newBook)
+                .getComments();
+    }
 }

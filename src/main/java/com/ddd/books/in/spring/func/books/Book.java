@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,6 +27,21 @@ public class Book {
     private List<Integer> ratings;
     private List<Comment> comments;
 
+    public Book addComment(final Comment comment) {
+        final Book newBook = new Book(
+                id
+                , name
+                , author
+                , publishingYear
+                , description
+                , contents
+                , ratings
+                , new ArrayList<>(comments));
+
+        newBook.comments.add(comment);
+        return newBook;
+    }
+
     @Data
     @Document
     @NoArgsConstructor
@@ -37,8 +53,10 @@ public class Book {
     @Data
     @Document
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class Comment {
         private UUID commenterId;
+        private String commenter;
         private String comment;
     }
 }
