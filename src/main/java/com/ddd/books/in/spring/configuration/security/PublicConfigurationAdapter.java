@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.session.SessionManagementFilter;
 
 import static org.springframework.http.HttpMethod.GET;
 
@@ -29,6 +30,7 @@ public class PublicConfigurationAdapter extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http
                 .antMatcher("/**")
+                .addFilterBefore(new CORSFilter(), SessionManagementFilter.class)
                 .cors()
                 .and()
                 .formLogin().disable()
