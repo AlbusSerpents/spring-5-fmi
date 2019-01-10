@@ -5,6 +5,7 @@ import com.ddd.books.in.spring.auth.UserAuthentication;
 import com.ddd.books.in.spring.func.exceptions.FunctionalException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,7 +44,7 @@ public class UsersService {
         final String password = request.getPassword();
 
         final String encodedPassword = encodePassword(password);
-        final User user = new User(randomUUID(), name, email, encodedPassword);
+        final User user = new User(randomUUID(), name, email, encodedPassword, Collections.emptyList());
         final User registered = repository.save(user);
 
         return authService.authenticateUser(registered.getEmail(), password, sessionId);

@@ -1,5 +1,6 @@
 package com.ddd.books.in.spring.func.users;
 
+import com.ddd.books.in.spring.func.books.wishlists.BookWish;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
 import java.util.UUID;
 
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
@@ -26,11 +28,13 @@ public class User {
     @JsonProperty(access = WRITE_ONLY)
     private final String password;
 
+    private final List<BookWish> wishlist;
+
     User withEmail(final String email) {
-        return new User(this.id, this.name, email, this.password);
+        return new User(this.id, this.name, email, this.password, this.wishlist);
     }
 
     User withPassword(final String password) {
-        return new User(this.id, this.name, this.email, password);
+        return new User(this.id, this.name, this.email, password, this.wishlist);
     }
 }
