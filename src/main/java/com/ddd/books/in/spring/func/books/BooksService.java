@@ -1,6 +1,7 @@
 package com.ddd.books.in.spring.func.books;
 
 import com.ddd.books.in.spring.func.books.Book.Comment;
+import com.ddd.books.in.spring.func.books.Book.Marker;
 import com.ddd.books.in.spring.func.exceptions.FunctionalException;
 import org.springframework.stereotype.Service;
 
@@ -35,11 +36,11 @@ public class BooksService {
         return repository.save(book);
     }
 
-    public List<BookInfo> findAll(final BooksSearch search) {
+    public List<BookInfo> readAll(final BooksSearch search) {
         return repository.findAll(search);
     }
 
-    public BookDetails findById(final UUID bookId) {
+    public BookDetails readById(final UUID bookId) {
         final Book book = repository
                 .findById(bookId)
                 .orElseThrow(() -> bookNotFound(bookId));
@@ -90,5 +91,12 @@ public class BooksService {
         return repository
                 .save(newBook)
                 .getComments();
+    }
+
+    public List<Marker> readContents(final UUID bookId) {
+        return repository
+                .findById(bookId)
+                .map(Book::getContents)
+                .orElseThrow(() -> bookNotFound(bookId));
     }
 }

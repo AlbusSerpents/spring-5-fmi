@@ -1,5 +1,6 @@
 package com.ddd.books.in.spring.rest.free;
 
+import com.ddd.books.in.spring.func.books.Book.Marker;
 import com.ddd.books.in.spring.func.books.BookDetails;
 import com.ddd.books.in.spring.func.books.BookInfo;
 import com.ddd.books.in.spring.func.books.BooksSearch;
@@ -26,11 +27,16 @@ public class PublicBooksEndpoint {
 
     @RequestMapping(value = "", method = GET)
     public List<BookInfo> listBooks(final @Valid BooksSearch search) {
-        return service.findAll(search);
+        return service.readAll(search);
     }
 
     @RequestMapping(value = "/{bookId}", method = GET)
     public BookDetails getById(final @PathVariable("bookId") UUID bookId) {
-        return service.findById(bookId);
+        return service.readById(bookId);
+    }
+
+    @RequestMapping(value = "/{bookId}/contents", method = GET)
+    public List<Marker> getContents(final @PathVariable("bookId") UUID bookId) {
+        return service.readContents(bookId);
     }
 }
