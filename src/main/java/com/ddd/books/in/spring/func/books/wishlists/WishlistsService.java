@@ -46,4 +46,17 @@ public class WishlistsService {
             }
         }
     }
+
+    public void removeFromWishlist(final UUID ownerId, final UUID userId, final BookWish request) {
+        if (!ownerId.equals(userId)) {
+            throw new FunctionalException(OPERATION_FORBIDDEN, null, FORBIDDEN);
+        } else {
+            final Set<BookWish> wishlist = readWishlist(ownerId);
+            final boolean deleted = wishlist.remove(request);
+
+            if (!deleted || !repository.updateWishlist(wishlist, ownerId)) {
+                throw new FunctionalException(OPERATION_FAILED, null);
+            }
+        }
+    }
 }

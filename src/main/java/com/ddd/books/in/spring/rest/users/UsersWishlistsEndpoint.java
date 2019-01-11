@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -38,4 +39,12 @@ public class UsersWishlistsEndpoint {
         return wishlistsService.addToWishlist(ownerId, details.getId(), request);
     }
 
+    @ResponseStatus(NO_CONTENT)
+    @RequestMapping(value = "/remove", method = POST)
+    public void removeFromWishlist(
+            final @PathVariable("userId") UUID ownerId,
+            final @RequestBody @Valid BookWish request,
+            final @AuthenticationPrincipal CustomUserDetails details){
+        wishlistsService.removeFromWishlist(ownerId, details.getId(), request);
+    }
 }
