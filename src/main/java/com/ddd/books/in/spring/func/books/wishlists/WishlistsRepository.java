@@ -1,8 +1,11 @@
 package com.ddd.books.in.spring.func.books.wishlists;
 
-import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 public interface WishlistsRepository {
-    List<BookWish> findWishlist(UUID userId);
+    Optional<Set<BookWish>> findWishlist(UUID userId);
+
+    boolean updateWishlist(Set<BookWish> wishlist, UUID ownerId);
 }

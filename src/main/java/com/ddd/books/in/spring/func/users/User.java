@@ -8,7 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
@@ -28,7 +28,7 @@ public class User {
     @JsonProperty(access = WRITE_ONLY)
     private final String password;
 
-    private final List<BookWish> wishlist;
+    private final Set<BookWish> wishlist;
 
     User withEmail(final String email) {
         return new User(this.id, this.name, email, this.password, this.wishlist);

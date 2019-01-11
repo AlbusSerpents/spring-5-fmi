@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+import static com.ddd.books.in.spring.func.exceptions.ErrorResponse.ErrorCode.BOOK_ALREADY_EXISTS;
 import static com.ddd.books.in.spring.func.exceptions.ErrorResponse.ErrorCode.MISSING;
 import static java.util.Collections.emptyList;
 import static java.util.UUID.randomUUID;
+import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
@@ -23,17 +25,22 @@ public class BooksService {
     }
 
     public Book create(final CreateBookRequest request) {
-        final Book book = new Book(
-                randomUUID(),
-                request.getName(),
-                request.getAuthor(),
-                request.getPublishingYear(),
-                request.getDescription(),
-                request.getContents(),
-                emptyList(),
-                emptyList());
 
-        return repository.save(book);
+        if (bookAlreadyExists(request.getName())) {
+            throw new FunctionalException(BOOK_ALREADY_EXISTS, "That book already exists", CONFLICT);
+        } else {
+            final Book book = new Book(
+                    randomUUID(),
+                    request.getName(),
+                    request.getAuthor(),
+                    request.getPublishingYear(),
+                    request.getDescription(),
+                    request.getContents(),
+                    emptyList(),
+                    emptyList());
+
+            return repository.save(book);
+        }
     }
 
     public List<BookInfo> readAll(final BooksSearch search) {
@@ -60,6 +67,11 @@ public class BooksService {
     private FunctionalException bookNotFound(final UUID bookId) {
         final String message = String.format("Book %s doesn't exist", bookId);
         return new FunctionalException(MISSING, message, NOT_FOUND);
+    }
+
+    public boolean bookAlreadyExists(final String bookName){
+        final BooksSearch search = new BooksSearch(bookName, null, null);
+        return !repository.findAll(search).isEmpty();
     }
 
     private Integer calculateAverageRating(final List<Integer> ratings) {

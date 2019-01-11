@@ -25,6 +25,7 @@ public class ErrorResponse {
         MEMBER_ALREADY_EXISTS,
         USER_NOT_A_MEMBER_OF_THE_CLUB,
         OWNER_CANNOT_LEAVE_CLUB,
+        BOOK_ALREADY_EXISTS,
         BOX_NOT_FOUND
     }
 }

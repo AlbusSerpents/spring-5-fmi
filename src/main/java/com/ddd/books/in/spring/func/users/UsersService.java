@@ -44,7 +44,7 @@ public class UsersService {
         final String password = request.getPassword();
 
         final String encodedPassword = encodePassword(password);
-        final User user = new User(randomUUID(), name, email, encodedPassword, Collections.emptyList());
+        final User user = new User(randomUUID(), name, email, encodedPassword, Collections.emptySet());
         final User registered = repository.save(user);
 
         return authService.authenticateUser(registered.getEmail(), password, sessionId);
