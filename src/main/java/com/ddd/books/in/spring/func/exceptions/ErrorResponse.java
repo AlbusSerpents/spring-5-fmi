@@ -24,6 +24,7 @@ public class ErrorResponse {
         DELETE_USER_FAILED,
         MEMBER_ALREADY_EXISTS,
         USER_NOT_A_MEMBER_OF_THE_CLUB,
-        OWNER_CANNOT_LEAVE_CLUB
+        OWNER_CANNOT_LEAVE_CLUB,
+        BOX_NOT_FOUND
     }
 }

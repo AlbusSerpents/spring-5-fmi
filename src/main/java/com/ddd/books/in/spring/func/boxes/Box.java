@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,8 +16,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Box {
-    private List<Book> books;
-    private String location;
     @Id
     private UUID id;
+    private List<BookInBox> books;
+    @NotBlank
+    private String location;
+
+
 }

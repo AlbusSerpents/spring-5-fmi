@@ -1,16 +1,25 @@
 package com.ddd.books.in.spring.func.boxes;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
-import javax.ws.rs.DefaultValue;
 import java.util.UUID;
 
-public class BookInBox{
+@Data
+@Document
+@AllArgsConstructor
+@NoArgsConstructor
+public class BookInBox {
     @Id
-    private UUID id;
+    private String id;
+    @NotBlank
+    private UUID boxId;
     @NotBlank
     private String name;
     @NotBlank
@@ -19,7 +28,4 @@ public class BookInBox{
     private Integer publishingYear;
 
     private boolean isTaken = false;
-
-    public BookInBox() {
-    }
 }
