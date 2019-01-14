@@ -13,5 +13,8 @@ public class CreateClubRequest {
     private String name;
 
     @NotBlank
+    private String topic;
+
+    @NotBlank
     private String description;
 }

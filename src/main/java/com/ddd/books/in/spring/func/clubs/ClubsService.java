@@ -40,6 +40,7 @@ public class ClubsService {
             final Club club = new Club(
                     randomUUID(),
                     clubName,
+                    request.getTopic(),
                     request.getDescription(),
                     owner,
                     singletonList(owner));

@@ -22,6 +22,7 @@ public class Club {
 
     @Indexed(unique = true)
     private String name;
+    private String topic;
     private String description;
 
     private MemberInfo owner;
@@ -39,6 +40,6 @@ public class Club {
     }
 
     Club withDescription(final String description) {
-        return new Club(this.id, this.name, description, this.owner, this.members);
+        return new Club(this.id, this.name, this.topic, description, this.owner, this.members);
     }
 }
