@@ -48,8 +48,8 @@ public class ClubsService {
         }
     }
 
-    public List<ClubInfo> readAll() {
-        return repository.findAllInfo();
+    public List<ClubInfo> readAll(final String name, final String topic) {
+        return repository.findAllInfo(name, topic);
     }
 
     public void join(

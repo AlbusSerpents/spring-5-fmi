@@ -12,7 +12,13 @@ public interface ClubsRepository {
 
     Optional<Club> findById(final UUID id);
 
-    List<ClubInfo> findAllInfo();
+    List<ClubInfo> findAllInfo(final String name, final String topic);
+
+    List<ClubInfo> findAllByName(final String name);
+
+    List<ClubInfo> findAllByTopic(final String topic);
+
+    List<ClubInfo> findAllByExisting(final String name, final String topic);
 
     boolean deleteById(UUID clubId);
 

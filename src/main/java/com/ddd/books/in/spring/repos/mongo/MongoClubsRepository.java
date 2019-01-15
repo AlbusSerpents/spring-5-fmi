@@ -45,8 +45,36 @@ public class MongoClubsRepository implements ClubsRepository {
     }
 
     @Override
-    public List<ClubInfo> findAllInfo() {
-        return template.findAll(ClubInfo.class, "club");
+    public List<ClubInfo> findAllInfo(final String name, final String topic) {
+        if (name == null && topic == null) {
+            return template.findAll(ClubInfo.class, "club");
+        } else if (name != null && topic == null) {
+            return findAllByName(name);
+        } else if (name == null) {
+            return findAllByTopic(topic);
+        } else {
+            return findAllByExisting(name, topic);
+        }
+    }
+
+    @Override
+    public List<ClubInfo> findAllByName(final String name) {
+        final Query query = new Query(where("name").is(name));
+        return template.find(query, ClubInfo.class, "club");
+    }
+
+    @Override
+    public List<ClubInfo> findAllByTopic(final String topic) {
+        final Query query = new Query(where("topic").is(topic));
+        return template.find(query, ClubInfo.class, "club");
+    }
+
+    @Override
+    public List<ClubInfo> findAllByExisting(final String name, final String topic) {
+        final Criteria andCriteria = new Criteria()
+                .andOperator(where("name").is(name), where("topic").is(topic));
+        final Query query = new Query(andCriteria);
+        return template.find(query, ClubInfo.class, "club");
     }
 
     @Override
@@ -61,6 +89,4 @@ public class MongoClubsRepository implements ClubsRepository {
         final Criteria criteria = where("members").elemMatch(where("_id").is(userId));
         return template.find(new Query(criteria), ClubInfo.class, "club");
     }
-
-
 }

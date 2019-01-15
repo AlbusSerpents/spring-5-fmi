@@ -5,6 +5,7 @@ import com.ddd.books.in.spring.func.clubs.ClubInfo;
 import com.ddd.books.in.spring.func.clubs.ClubsService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -23,8 +24,9 @@ public class CommonsClubsEndpoint {
     }
 
     @RequestMapping(value = "", method = GET)
-    public List<ClubInfo> getAll() {
-        return service.readAll();
+    public List<ClubInfo> getAll(final @RequestParam(value = "name", required = false) String name,
+                                 final @RequestParam(value = "topic", required = false) String topic) {
+        return service.readAll(name, topic);
     }
 
     @RequestMapping(value = "/{clubId}", method = GET)
