@@ -14,7 +14,7 @@ public class StatusEndpoint {
     @ResponseStatus(I_AM_A_TEAPOT)
     @RequestMapping(value = "/status", method = GET)
     public ApplicationStatus getStatus() {
-        return new ApplicationStatus("Books in configuration", "1.0.0", "OK");
+        return new ApplicationStatus("Books in spring", "1.0.0", "OK");
     }
 
 }
