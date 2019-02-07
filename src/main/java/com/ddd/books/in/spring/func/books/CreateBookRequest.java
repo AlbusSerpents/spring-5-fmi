@@ -25,6 +25,9 @@ public class CreateBookRequest {
     @NotBlank
     private String description;
 
+    @NotBlank
+    private String bookCover;
+
     @NotEmpty
     private List<Marker> contents;
 }

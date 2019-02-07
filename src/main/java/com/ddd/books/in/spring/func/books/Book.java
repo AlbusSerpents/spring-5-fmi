@@ -22,6 +22,7 @@ public class Book {
     private Integer publishingYear;
 
     private String description;
+    private String bookCover;
     private List<Marker> contents;
 
     private List<Integer> ratings;
@@ -34,6 +35,7 @@ public class Book {
                 , author
                 , publishingYear
                 , description
+                , bookCover
                 , contents
                 , ratings
                 , new ArrayList<>(comments));

@@ -12,4 +12,5 @@ public class BookInfo {
     private String name;
     private String author;
     private Integer publishingYear;
+    private String bookCover;
 }

@@ -17,6 +17,7 @@ public class BookDetails {
     private Integer publishingYear;
 
     private String description;
+    private String bookCover;
 
     private Integer rating;
     private List<Comment> comments;

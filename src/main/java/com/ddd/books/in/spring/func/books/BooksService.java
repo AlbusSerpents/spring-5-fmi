@@ -35,6 +35,7 @@ public class BooksService {
                     request.getAuthor(),
                     request.getPublishingYear(),
                     request.getDescription(),
+                    request.getBookCover(),
                     request.getContents(),
                     emptyList(),
                     emptyList());
@@ -60,6 +61,7 @@ public class BooksService {
                 book.getAuthor(),
                 book.getPublishingYear(),
                 book.getDescription(),
+                book.getBookCover(),
                 ratings.isEmpty() ? null : calculateAverageRating(ratings),
                 book.getComments());
     }
