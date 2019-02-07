@@ -21,8 +21,9 @@ public class LibrarianUsersEndpoint {
     }
 
     @RequestMapping(value = "", method = GET)
-    public List<User> listAll(final @RequestParam(name = "name", required = false) String name) {
-        return service.findAll(name);
+    public List<User> listAll(final @RequestParam(name = "name", required = false) String name,
+                              final @RequestParam(value = "email", required = false) String email) {
+        return service.findAll(name, email);
     }
 
     @ResponseStatus(NO_CONTENT)

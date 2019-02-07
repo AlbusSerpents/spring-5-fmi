@@ -31,6 +31,19 @@ public class MongoUsersRepository implements UsersRepository {
     }
 
     @Override
+    public List<User> findByNameOrEmail(final String name, final String email) {
+        if (name == null && email == null) {
+            return template.findAll(User.class, "user");
+        } else if (name != null && email == null) {
+            return findByName(name);
+        } else if (name == null) {
+            return findUsersByEmail(email);
+        } else {
+            return findByExisting(name, email);
+        }
+    }
+
+    @Override
     public User save(final User user) {
         template.save(user);
         return template.findById(user.getId(), User.class);
@@ -49,6 +62,16 @@ public class MongoUsersRepository implements UsersRepository {
         final Query query = new Query(where("email").is(email));
         final User user = template.findOne(query, User.class);
         return ofNullable(user);
+    }
+
+    @Override
+    public List<User> findUsersByEmail(final String email) {
+        if (email == null) {
+            return template.findAll(User.class);
+        } else {
+            final Query query = new Query(where("email").is(email));
+            return template.find(query, User.class);
+        }
     }
 
     @Override

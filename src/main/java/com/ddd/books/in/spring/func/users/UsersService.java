@@ -92,8 +92,8 @@ public class UsersService {
         }
     }
 
-    public List<User> findAll(final String name) {
-        return repository.findByName(name);
+    public List<User> findAll(final String name, final String email) {
+        return repository.findByNameOrEmail(name, email);
     }
 
     public void deleteById(final UUID userId) {
