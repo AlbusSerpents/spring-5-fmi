@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.UUID;
+
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
@@ -44,7 +44,7 @@ public class BoxesEndpoint {
     }
 
     @RequestMapping(value = "/{boxId}/books", method = GET)
-    public List<BookInBox> getAllBooksByBoxId(final @PathVariable("boxId") UUID boxId) {
+    public List<BookInBox> getAllBooksByBoxId(final @PathVariable("boxId") String boxId) {
         return this.bookInBoxService.getAllByBoxId(boxId);
     }
 
@@ -57,4 +57,11 @@ public class BoxesEndpoint {
     public void removeBookById(@PathVariable("id") String id) {
         this.bookInBoxService.removeBookById(id);
     }
+
+    @RequestMapping(value = "/book/{id}", method = GET)
+    public BookInBox getBookById(@PathVariable("id") String id) {
+        return this.bookInBoxService.getBookById(id);
+    }
+
+
 }

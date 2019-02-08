@@ -4,7 +4,7 @@ import com.ddd.books.in.spring.func.exceptions.FunctionalException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @Service
 public class BookInBoxService {
@@ -19,10 +19,13 @@ public class BookInBoxService {
     public List<BookInBox> getAll(){
         return this.bookInBoxRepository.getAll();
     }
-    public List<BookInBox> getAllByBoxId(UUID id){
+    public List<BookInBox> getAllByBoxId(String id){
         return this.bookInBoxRepository.getAllByBoxId(id);
     }
     public void removeBookById(String id){
         this.bookInBoxRepository.removeBookById(id);
+    }
+    public BookInBox getBookById(String id){
+        return this.bookInBoxRepository.getBookById(id);
     }
 }

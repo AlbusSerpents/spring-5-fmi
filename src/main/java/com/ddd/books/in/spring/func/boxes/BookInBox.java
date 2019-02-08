@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
-import java.util.UUID;
 
 @Data
 @Document
@@ -17,15 +16,18 @@ import java.util.UUID;
 @NoArgsConstructor
 public class BookInBox {
     @Id
-    private String id;
+    public String id;
     @NotBlank
-    private UUID boxId;
+    private String boxId;
     @NotBlank
     private String name;
     @NotBlank
     private String author;
     @Positive
     private Integer publishingYear;
+    @NotBlank
+    private String bookCover;
+
 
     private boolean isTaken = false;
 }
