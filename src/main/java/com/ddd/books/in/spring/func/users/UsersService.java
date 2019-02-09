@@ -92,7 +92,7 @@ public class UsersService {
         }
     }
 
-    public List<User> findAll(final String name, final String email) {
+    public List<UserInfo> findAll(final String name, final String email) {
         return repository.findByNameOrEmail(name, email);
     }
 

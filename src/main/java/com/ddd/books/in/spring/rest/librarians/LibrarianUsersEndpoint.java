@@ -1,6 +1,6 @@
 package com.ddd.books.in.spring.rest.librarians;
 
-import com.ddd.books.in.spring.func.users.User;
+import com.ddd.books.in.spring.func.users.UserInfo;
 import com.ddd.books.in.spring.func.users.UsersService;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +21,9 @@ public class LibrarianUsersEndpoint {
     }
 
     @RequestMapping(value = "", method = GET)
-    public List<User> listAll(final @RequestParam(name = "name", required = false) String name,
-                              final @RequestParam(value = "email", required = false) String email) {
+    public List<UserInfo> listAll(
+            final @RequestParam(name = "name", required = false) String name,
+            final @RequestParam(value = "email", required = false) String email) {
         return service.findAll(name, email);
     }
 

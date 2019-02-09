@@ -1,6 +1,7 @@
 package com.ddd.books.in.spring.repos.mongo;
 
 import com.ddd.books.in.spring.func.users.User;
+import com.ddd.books.in.spring.func.users.UserInfo;
 import com.ddd.books.in.spring.func.users.UsersRepository;
 import com.mongodb.client.result.DeleteResult;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -31,15 +32,33 @@ public class MongoUsersRepository implements UsersRepository {
     }
 
     @Override
-    public List<User> findByNameOrEmail(final String name, final String email) {
+    public List<UserInfo> findByNameOrEmail(final String name, final String email) {
         if (name == null && email == null) {
-            return template.findAll(User.class, "user");
+            return template.findAll(UserInfo.class, "user");
         } else if (name != null && email == null) {
-            return findByName(name);
+            return findAllByName(name);
         } else if (name == null) {
-            return findUsersByEmail(email);
+            return findAllByEmail(email);
         } else {
             return findByExisting(name, email);
+        }
+    }
+
+    private List<UserInfo> findAllByEmail(final String email) {
+        if (email == null) {
+            return template.findAll(UserInfo.class);
+        } else {
+            final Query query = new Query(where("email").is(email));
+            return template.find(query, UserInfo.class);
+        }
+    }
+
+    private List<UserInfo> findAllByName(final String name) {
+        if (name == null) {
+            return template.findAll(UserInfo.class);
+        } else {
+            final Query query = new Query(where("name").is(name));
+            return template.find(query, UserInfo.class);
         }
     }
 
@@ -50,11 +69,11 @@ public class MongoUsersRepository implements UsersRepository {
     }
 
     @Override
-    public List<User> findByExisting(final String name, final String email) {
+    public List<UserInfo> findByExisting(final String name, final String email) {
         final Criteria orCriteria = new Criteria()
                 .orOperator(where("name").is(name), where("email").is(email));
         final Query query = new Query(orCriteria);
-        return template.find(query, User.class);
+        return template.find(query, UserInfo.class, "user");
     }
 
     @Override
@@ -62,26 +81,6 @@ public class MongoUsersRepository implements UsersRepository {
         final Query query = new Query(where("email").is(email));
         final User user = template.findOne(query, User.class);
         return ofNullable(user);
-    }
-
-    @Override
-    public List<User> findUsersByEmail(final String email) {
-        if (email == null) {
-            return template.findAll(User.class);
-        } else {
-            final Query query = new Query(where("email").is(email));
-            return template.find(query, User.class);
-        }
-    }
-
-    @Override
-    public List<User> findByName(final String name) {
-        if (name == null) {
-            return template.findAll(User.class);
-        } else {
-            final Query query = new Query(where("name").is(name));
-            return template.find(query, User.class);
-        }
     }
 
     @Override

@@ -8,17 +8,13 @@ public interface UsersRepository {
 
     Optional<User> findById(final UUID id);
 
-    List<User> findByNameOrEmail(final String name, final String email);
+    List<UserInfo> findByNameOrEmail(final String name, final String email);
 
     User save(final User user);
 
-    List<User> findByExisting(final String name, final String email);
+    List<UserInfo> findByExisting(final String name, final String email);
 
     Optional<User> findByEmail(final String email);
-
-    List<User> findUsersByEmail(final String email);
-
-    List<User> findByName(final String name);
 
     boolean removeById(final UUID userId);
 }
