@@ -37,6 +37,10 @@ public class PollService {
         return createdPoll;
     }
 
+    public List<BookInPoll> readAll() {
+        return repository.findAll();
+    }
+
     private List<BookInPoll> getBooksFromWishlists() {
         List<User> users = usersService.findAll(null, null);
         List<BookInPoll> booksFromWishlists = new ArrayList<>();
@@ -92,4 +96,6 @@ public class PollService {
 
         return booksInPoll;
     }
+
+
 }

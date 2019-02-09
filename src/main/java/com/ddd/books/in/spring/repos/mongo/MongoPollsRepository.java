@@ -1,10 +1,12 @@
 package com.ddd.books.in.spring.repos.mongo;
 
+import com.ddd.books.in.spring.func.books.poll.BookInPoll;
 import com.ddd.books.in.spring.func.books.poll.Poll;
 import com.ddd.books.in.spring.func.books.poll.PollRepository;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,5 +31,14 @@ public class MongoPollsRepository implements PollRepository {
     public Optional<Poll> findById(final UUID pollId) {
         final Poll poll = template.findById(pollId, Poll.class);
         return ofNullable(poll);
+    }
+
+    @Override
+    public List<BookInPoll> findAll() {
+        List<Poll> polls = template.findAll(Poll.class, "poll");
+        int latestPollIndex = polls.size() - 1;
+        Poll latestPoll = polls.get(latestPollIndex);
+
+        return latestPoll.getBooksInPoll();
     }
 }
