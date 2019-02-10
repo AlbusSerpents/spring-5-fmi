@@ -42,6 +42,43 @@ public class PollService {
         return createdPoll;
     }
 
+    public PollResults findResults() {
+        Poll poll = repository.findLatestPoll();
+
+        if (poll == null) {
+            throw new FunctionalException(
+                    NO_POLLS_CREATED,
+                    "There are no polls created yet");
+        }
+        else {
+            List<BookInPoll> books = readAll();
+            Collections.sort(books, (first, second) -> {
+                if (first.getVotes() > second.getVotes()) {
+                    return -1;
+                } else if (first.getVotes() < second.getVotes()) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
+
+            List<BookWish> winners = new ArrayList<>();
+            List<BookWish> losers = new ArrayList<>();
+            for (BookInPoll book : books) {
+                int index = books.indexOf(book);
+                if (index < 5) {
+                    winners.add(book.getBook());
+                }else{
+                    losers.add(book.getBook());
+                }
+            }
+
+            PollResults results = new PollResults(winners, losers);
+
+            return results;
+        }
+    }
+
     public List<BookInPoll> readAll() {
         List<BookInPoll> books = repository.findAll();
         if(books != null){
@@ -158,5 +195,4 @@ public class PollService {
 
         return booksInPoll;
     }
-
 }
