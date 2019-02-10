@@ -23,4 +23,7 @@ public class Poll {
 
     @NotNull
     private Date endDate;
+
+    @NotNull
+    private List<UUID> voters;
 }

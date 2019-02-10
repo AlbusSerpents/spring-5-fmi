@@ -2,6 +2,7 @@ package com.ddd.books.in.spring.func.books.poll;
 
 import com.ddd.books.in.spring.func.books.wishlists.BookWish;
 import com.ddd.books.in.spring.func.books.wishlists.WishlistsService;
+import com.ddd.books.in.spring.func.exceptions.FunctionalException;
 import com.ddd.books.in.spring.func.users.User;
 import com.ddd.books.in.spring.func.users.UsersService;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,9 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
 
+import static com.ddd.books.in.spring.func.exceptions.ErrorResponse.ErrorCode.BOOK_NOT_IN_POLL;
+import static com.ddd.books.in.spring.func.exceptions.ErrorResponse.ErrorCode.NO_POLLS_CREATED;
+import static com.ddd.books.in.spring.func.exceptions.ErrorResponse.ErrorCode.USER_ALREADY_VOTED;
 import static java.util.UUID.randomUUID;
 
 @Service
@@ -31,14 +35,64 @@ public class PollService {
 
         LocalDate futureDate = LocalDate.now().plusMonths(1);
         Date endDate = Date.valueOf(futureDate);
-        Poll poll = new Poll(randomUUID(), booksInPoll, endDate);
+
+        Poll poll = new Poll(randomUUID(), booksInPoll, endDate, new ArrayList<>());
         final Poll createdPoll = repository.save(poll);
 
         return createdPoll;
     }
 
     public List<BookInPoll> readAll() {
-        return repository.findAll();
+        List<BookInPoll> books = repository.findAll();
+        if(books != null){
+            return books;
+        }else{
+            throw new FunctionalException(
+                    NO_POLLS_CREATED,
+                    "There are no polls created yet");
+        }
+    }
+
+    public Poll vote(final UUID bookId, final UUID userId) {
+        Poll poll = repository.findLatestPoll();
+
+        if (poll == null) {
+            throw new FunctionalException(
+                    NO_POLLS_CREATED,
+                    "There are no polls created yet");
+        }
+        else {
+            List<UUID> voters = poll.getVoters();
+
+            List<BookInPoll> books = repository.findAll();
+            boolean bookInPoll = false;
+            int bookIndex = -1;
+
+            for (BookInPoll book : books) {
+                if (book.getId().equals(bookId)) {
+                    bookInPoll = true;
+                    bookIndex = books.indexOf(book);
+                    break;
+                }
+            }
+
+            if (voters.contains(userId)) {
+                throw new FunctionalException(
+                        USER_ALREADY_VOTED,
+                        "User has already cast their vote in this poll");
+            } else if (!bookInPoll) {
+                throw new FunctionalException(
+                        BOOK_NOT_IN_POLL,
+                        "This book is not in the current poll");
+            } else {
+                poll.getVoters().add(userId);
+                Integer newVotes = poll.getBooksInPoll().get(bookIndex).getVotes() + 1;
+                poll.getBooksInPoll().get(bookIndex).setVotes(newVotes);
+                repository.save(poll);
+            }
+
+            return repository.findLatestPoll();
+        }
     }
 
     private List<BookInPoll> getBooksFromWishlists() {
@@ -64,15 +118,23 @@ public class PollService {
         }
 
         for (Map.Entry<String, Integer> entry : bookOccurrences.entrySet()) {
-            for (BookWish book : books) {
-                if (book.getName().equals(entry.getKey())) {
-                    BookInPoll bookInPoll = new BookInPoll(book, entry.getValue(), 0);
-                    booksFromWishlists.add(bookInPoll);
-                }
+            BookWish book = getBookByName(entry.getKey(), books);
+            if(book != null) {
+                BookInPoll bookInPoll = new BookInPoll(randomUUID(), book, entry.getValue(), 0);
+                booksFromWishlists.add(bookInPoll);
             }
         }
 
         return booksFromWishlists;
+    }
+
+    private BookWish getBookByName(final String name, final List<BookWish> books){
+        for (BookWish book : books) {
+            if (book.getName().equals(name)) {
+                return book;
+            }
+        }
+        return null;
     }
 
     private List<BookInPoll> addBooksInPoll(final List<BookInPoll> booksFromWishlists) {
@@ -96,6 +158,5 @@ public class PollService {
 
         return booksInPoll;
     }
-
 
 }

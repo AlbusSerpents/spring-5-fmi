@@ -11,4 +11,6 @@ public interface PollRepository {
     Optional<Poll> findById(final UUID pollId);
 
     List<BookInPoll> findAll();
+
+    Poll findLatestPoll();
 }

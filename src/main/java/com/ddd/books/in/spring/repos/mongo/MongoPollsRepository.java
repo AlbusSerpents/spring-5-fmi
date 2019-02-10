@@ -34,11 +34,24 @@ public class MongoPollsRepository implements PollRepository {
     }
 
     @Override
-    public List<BookInPoll> findAll() {
+    public Poll findLatestPoll() {
         List<Poll> polls = template.findAll(Poll.class, "poll");
-        int latestPollIndex = polls.size() - 1;
-        Poll latestPoll = polls.get(latestPollIndex);
+        if (polls.size() > 0) {
+            int latestPollIndex = polls.size() - 1;
+            Poll latestPoll = polls.get(latestPollIndex);
+            return latestPoll;
+        } else {
+            return null;
+        }
+    }
 
-        return latestPoll.getBooksInPoll();
+    @Override
+    public List<BookInPoll> findAll() {
+        Poll latestPoll = findLatestPoll();
+        if (latestPoll != null) {
+            return latestPoll.getBooksInPoll();
+        }else{
+            return null;
+        }
     }
 }
