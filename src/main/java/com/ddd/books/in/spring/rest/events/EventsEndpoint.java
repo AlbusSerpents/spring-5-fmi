@@ -12,7 +12,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
-@RequestMapping("/v1/users/events")
+@RequestMapping("/v1/common/events")
 public class EventsEndpoint {
 
     private final EventsService service;
