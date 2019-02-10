@@ -48,6 +48,6 @@ public class UsersConfigurationAdapter extends WebSecurityConfigurerAdapter {
                 .antMatchers(OPTIONS).permitAll()
                 .antMatchers(POST, "/v1/users/login").permitAll()
                 .antMatchers(POST, "/v1/users/register").permitAll()
-                .antMatchers("/v1/users/**").hasRole(USER.asUserRole());
+                .antMatchers("/v1/users/**").access("hasRole('USER') or hasRole('LIBRARIAN')");
     }
 }
