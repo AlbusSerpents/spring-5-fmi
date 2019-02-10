@@ -26,6 +26,9 @@ public class ErrorResponse {
         USER_NOT_A_MEMBER_OF_THE_CLUB,
         OWNER_CANNOT_LEAVE_CLUB,
         BOOK_ALREADY_EXISTS,
-        BOX_NOT_FOUND
+        BOX_NOT_FOUND,
+        USER_ALREADY_VOTED,
+        BOOK_NOT_IN_POLL,
+        NO_POLLS_CREATED
     }
 }
