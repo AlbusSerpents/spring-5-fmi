@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
+import java.util.UUID;
 
 @Data
 @Document
@@ -16,7 +17,7 @@ import javax.validation.constraints.Positive;
 @NoArgsConstructor
 public class BookInBox {
     @Id
-    public String id;
+    private UUID id = UUID.randomUUID();
     @NotBlank
     private String boxId;
     @NotBlank
@@ -30,4 +31,5 @@ public class BookInBox {
 
 
     private boolean isTaken = false;
+
 }

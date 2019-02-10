@@ -3,6 +3,7 @@ package com.ddd.books.in.spring.func.boxes;
 import com.ddd.books.in.spring.func.exceptions.FunctionalException;
 
 import java.util.List;
+import java.util.UUID;
 
 
 public interface BookInBoxRepository {
@@ -10,9 +11,9 @@ public interface BookInBoxRepository {
 
     List<BookInBox> getAll();
 
-    List<BookInBox> getAllByBoxId(String id);
+    List<BookInBox> getAllByBoxId(UUID id);
 
-    void removeBookById(String id);
+    void removeBookById(UUID id);
 
-    BookInBox getBookById(String id);
+    BookInBox getBookById(UUID id);
 }
