@@ -1,12 +1,14 @@
 package com.ddd.books.in.spring.rest.librarians;
 
 import com.ddd.books.in.spring.func.books.poll.Poll;
+import com.ddd.books.in.spring.func.books.poll.PollResults;
 import com.ddd.books.in.spring.func.books.poll.PollService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
@@ -23,5 +25,10 @@ public class LibrariansPollEndpoint {
     @RequestMapping(value = "", method = POST)
     public Poll create() {
         return service.create();
+    }
+
+    @RequestMapping(value = "", method = GET)
+    public PollResults listResults() {
+        return service.findResults();
     }
 }
