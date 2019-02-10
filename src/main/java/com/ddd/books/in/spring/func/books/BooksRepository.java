@@ -6,6 +6,8 @@ import java.util.UUID;
 
 public interface BooksRepository {
 
+    List<BookInfo> findNewest();
+
     Book save(final Book book);
 
     Optional<Book> findById(final UUID bookId);

@@ -1,6 +1,9 @@
 package com.ddd.books.in.spring.repos.mongo;
 
 import com.ddd.books.in.spring.func.books.*;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -11,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static java.util.Collections.singletonList;
 import static java.util.Optional.ofNullable;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
@@ -21,6 +25,14 @@ public class MongoBooksRepository implements BooksRepository {
 
     public MongoBooksRepository(final MongoTemplate template) {
         this.template = template;
+    }
+
+    @Override
+    public List<BookInfo> findNewest() {
+        final Query query = new Query();
+        final Order order = new Order(Sort.Direction.DESC, "publishingYear");
+        query.with(PageRequest.of(0, 10, Sort.by(order)));
+        return template.find(query, BookInfo.class, "book");
     }
 
     @Override

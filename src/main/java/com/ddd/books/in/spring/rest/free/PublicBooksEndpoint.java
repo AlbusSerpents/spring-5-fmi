@@ -30,6 +30,11 @@ public class PublicBooksEndpoint {
         return service.readAll(search);
     }
 
+    @RequestMapping(value = "/newest", method = GET)
+    public List<BookInfo> listNewest() {
+        return service.readNewest();
+    }
+
     @RequestMapping(value = "/{bookId}", method = GET)
     public BookDetails getById(final @PathVariable("bookId") UUID bookId) {
         return service.readById(bookId);

@@ -44,6 +44,10 @@ public class BooksService {
         }
     }
 
+    public List<BookInfo> readNewest() {
+        return repository.findNewest();
+    }
+
     public List<BookInfo> readAll(final BooksSearch search) {
         return repository.findAll(search);
     }
@@ -71,7 +75,7 @@ public class BooksService {
         return new FunctionalException(MISSING, message, NOT_FOUND);
     }
 
-    public boolean bookAlreadyExists(final String bookName){
+    public boolean bookAlreadyExists(final String bookName) {
         final BooksSearch search = new BooksSearch(bookName, null, null);
         return !repository.findAll(search).isEmpty();
     }
