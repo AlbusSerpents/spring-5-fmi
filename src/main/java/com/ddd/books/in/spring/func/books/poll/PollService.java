@@ -4,6 +4,7 @@ import com.ddd.books.in.spring.func.books.wishlists.BookWish;
 import com.ddd.books.in.spring.func.books.wishlists.WishlistsService;
 import com.ddd.books.in.spring.func.exceptions.FunctionalException;
 import com.ddd.books.in.spring.func.users.User;
+import com.ddd.books.in.spring.func.users.UserInfo;
 import com.ddd.books.in.spring.func.users.UsersService;
 import org.springframework.stereotype.Service;
 
@@ -133,15 +134,13 @@ public class PollService {
     }
 
     private List<BookInPoll> getBooksFromWishlists() {
-        List<User> users = usersService.findAll(null, null);
+        List<UserInfo> users = usersService.findAll(null, null);
         List<BookInPoll> booksFromWishlists = new ArrayList<>();
         List<BookWish> books = new ArrayList<>();
 
-        for (User user : users) {
+        for (UserInfo user : users) {
             final Set<BookWish> wishlist = wishlistsService.readWishlist(user.getId());
-            for (BookWish wish : wishlist) {
-                books.add(wish);
-            }
+            books.addAll(wishlist);
         }
 
         Map<String, Integer> bookOccurrences = new HashMap<>();
