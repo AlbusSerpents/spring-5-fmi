@@ -2,8 +2,12 @@ package com.ddd.books.in.spring.func.books.wishlists;
 
 import com.ddd.books.in.spring.func.books.BooksService;
 import com.ddd.books.in.spring.func.exceptions.FunctionalException;
+import com.ddd.books.in.spring.func.users.User;
+import com.ddd.books.in.spring.func.users.UserInfo;
+import com.ddd.books.in.spring.func.users.UsersService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -16,7 +20,8 @@ public class WishlistsService {
     private final WishlistsRepository repository;
     private final BooksService booksService;
 
-    public WishlistsService(final WishlistsRepository repository, final BooksService booksService) {
+    public WishlistsService(final WishlistsRepository repository,
+                            final BooksService booksService) {
         this.repository = repository;
         this.booksService = booksService;
     }

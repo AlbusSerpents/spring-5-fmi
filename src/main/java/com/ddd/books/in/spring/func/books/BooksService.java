@@ -2,10 +2,17 @@ package com.ddd.books.in.spring.func.books;
 
 import com.ddd.books.in.spring.func.books.Book.Comment;
 import com.ddd.books.in.spring.func.books.Book.Marker;
+import com.ddd.books.in.spring.func.books.wishlists.BookWish;
+import com.ddd.books.in.spring.func.books.wishlists.WishlistsRepository;
+import com.ddd.books.in.spring.func.books.wishlists.WishlistsService;
 import com.ddd.books.in.spring.func.exceptions.FunctionalException;
+import com.ddd.books.in.spring.func.users.User;
+import com.ddd.books.in.spring.func.users.UserInfo;
+import com.ddd.books.in.spring.func.users.UsersService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static com.ddd.books.in.spring.func.exceptions.ErrorResponse.ErrorCode.BOOK_ALREADY_EXISTS;
@@ -19,9 +26,15 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class BooksService {
 
     private final BooksRepository repository;
+    private final WishlistsRepository wishlistsRepository;
+    private final UsersService usersService;
 
-    public BooksService(final BooksRepository repository) {
+    public BooksService(final BooksRepository repository,
+                        final WishlistsRepository wishlistsRepository,
+                        final UsersService usersService) {
         this.repository = repository;
+        this.wishlistsRepository = wishlistsRepository;
+        this.usersService = usersService;
     }
 
     public Book create(final CreateBookRequest request) {
@@ -29,6 +42,7 @@ public class BooksService {
         if (bookAlreadyExists(request.getName())) {
             throw new FunctionalException(BOOK_ALREADY_EXISTS, "That book already exists", CONFLICT);
         } else {
+            removeBookFromWishlists(request.getName(), request.getAuthor(), request.getPublishingYear());
             final Book book = new Book(
                     randomUUID(),
                     request.getName(),
@@ -116,5 +130,21 @@ public class BooksService {
                 .findById(bookId)
                 .map(Book::getContents)
                 .orElseThrow(() -> bookNotFound(bookId));
+    }
+
+    private void removeBookFromWishlists(final String name, final String author, final Integer publishingYear) {
+        List<UserInfo> users = usersService.findAll(null, null);
+
+        for (UserInfo currentUser : users) {
+            final Set<BookWish> wishlist = wishlistsRepository.findWishlist(currentUser.getId()).orElseThrow(() -> new FunctionalException(MISSING, null, NOT_FOUND));
+
+            for (BookWish book: wishlist) {
+                if(book.getName().equals(name) && book.getAuthor().equals(author) && book.getPublishingYear().equals(publishingYear)){
+                    User user = usersService.readById(currentUser.getId());
+                    user.getWishlist().remove(book);
+                    usersService.updateWishlist(user);
+                }
+            }
+        }
     }
 }

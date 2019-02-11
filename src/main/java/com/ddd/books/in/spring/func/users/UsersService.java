@@ -92,6 +92,10 @@ public class UsersService {
         }
     }
 
+    public User updateWishlist(final User user) {
+        return repository.save(user);
+    }
+
     public List<UserInfo> findAll(final String name, final String email) {
         return repository.findByNameOrEmail(name, email);
     }
