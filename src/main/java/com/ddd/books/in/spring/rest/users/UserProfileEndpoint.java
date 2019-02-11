@@ -1,8 +1,6 @@
 package com.ddd.books.in.spring.rest.users;
 
 import com.ddd.books.in.spring.auth.CustomUserDetails;
-import com.ddd.books.in.spring.func.books.wishlists.BookWish;
-import com.ddd.books.in.spring.func.books.wishlists.WishlistsService;
 import com.ddd.books.in.spring.func.clubs.ClubInfo;
 import com.ddd.books.in.spring.func.clubs.ClubsService;
 import com.ddd.books.in.spring.func.users.UpdateUserRequest;
@@ -32,7 +30,7 @@ public class UserProfileEndpoint {
     }
 
     @RequestMapping(value = "/profile/{userId}", method = GET)
-    public Object getProfile(final @AuthenticationPrincipal CustomUserDetails details) {
+    public User getProfile(final @AuthenticationPrincipal CustomUserDetails details) {
         return service.readById(details.getId());
     }
 
