@@ -21,11 +21,6 @@ public class EventsEndpoint {
         this.service = eventsService;
     }
 
-    @RequestMapping(value = "/add", method = POST)
-    public Event createEvent(final @RequestBody Event event) {
-        return service.create(event);
-    }
-
     @RequestMapping(value = "", method = GET)
     public List<Event> listAllEvents(final @RequestParam(value = "topic", required = false) String topic) {
         return service.listAll(topic);
@@ -40,15 +35,5 @@ public class EventsEndpoint {
     @RequestMapping(value = "/event", method = GET)
     public Event showEventByName(final @RequestParam(value = "name", required = true) String name) {
         return service.findByName(name);
-    }
-
-    @RequestMapping(value = "/{eventId}/subscribe", method = POST)
-    public void subscribe(@PathVariable(value = "eventId") UUID eventId, Principal principal) {
-        service.subscribe(eventId, principal);
-    }
-
-    @RequestMapping(value = "/{eventId}/unsubscribe", method = POST)
-    public void unsubscribe(@PathVariable(value = "eventId") UUID eventId, Principal principal) {
-        service.unsubscribe(eventId, principal);
     }
 }
