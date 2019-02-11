@@ -18,8 +18,8 @@ public class EventsService {
         return repository.add(event);
     }
 
-    public List<Event> listAll() {
-        return repository.findAll();
+    public List<Event> listAll(final String topic) {
+        return repository.findAll(topic);
     }
 
     public Event showDetails(final UUID id) {

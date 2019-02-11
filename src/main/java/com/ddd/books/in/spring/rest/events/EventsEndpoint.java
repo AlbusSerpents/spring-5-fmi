@@ -27,8 +27,8 @@ public class EventsEndpoint {
     }
 
     @RequestMapping(value = "", method = GET)
-    public List<Event> listAllEvents() {
-        return service.listAll();
+    public List<Event> listAllEvents(final @RequestParam(value = "topic", required = false) String topic) {
+        return service.listAll(topic);
     }
 
     @RequestMapping(value = "/{eventId}", method = GET)
@@ -46,6 +46,7 @@ public class EventsEndpoint {
     public void subscribe(@PathVariable(value = "eventId") UUID eventId, Principal principal) {
         service.subscribe(eventId, principal);
     }
+
     @RequestMapping(value = "/{eventId}/unsubscribe", method = POST)
     public void unsubscribe(@PathVariable(value = "eventId") UUID eventId, Principal principal) {
         service.unsubscribe(eventId, principal);

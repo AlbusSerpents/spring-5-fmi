@@ -8,7 +8,7 @@ import java.util.UUID;
 public interface EventsRepository {
     Event add(final Event event);
 
-    List<Event> findAll();
+    List<Event> findAll(final String topic);
 
     Event findByName(final String name);
 

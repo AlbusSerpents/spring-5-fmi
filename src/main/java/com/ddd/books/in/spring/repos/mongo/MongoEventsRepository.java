@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+
 
 @Repository
 public class MongoEventsRepository implements EventsRepository {
@@ -30,8 +32,13 @@ public class MongoEventsRepository implements EventsRepository {
     }
 
     @Override
-    public List<Event> findAll() {
-        return template.findAll(Event.class);
+    public List<Event> findAll(final String topic) {
+        if (topic == null) {
+            return template.findAll(Event.class, "event");
+        } else {
+            final Query query = new Query(where("topic").is(topic));
+            return template.find(query, Event.class, "event");
+        }
     }
 
     @Override
@@ -42,7 +49,7 @@ public class MongoEventsRepository implements EventsRepository {
 
     @Override
     public void delete(UUID id) {
-        template.remove(Query.query(Criteria.where("id").is(id)),Event.class);
+        template.remove(Query.query(where("id").is(id)), Event.class);
     }
 
     @Override
@@ -71,6 +78,6 @@ public class MongoEventsRepository implements EventsRepository {
 
     @Override
     public Event findByName(final String name) {
-        return template.findOne(Query.query(Criteria.where("name").is(name)), Event.class);
+        return template.findOne(Query.query(where("name").is(name)), Event.class);
     }
 }
