@@ -13,6 +13,7 @@ import org.springframework.security.web.session.SessionManagementFilter;
 
 import static com.ddd.books.in.spring.configuration.security.SecurityRole.LIBRARIAN;
 import static com.ddd.books.in.spring.configuration.security.SecurityRole.USER;
+import static org.springframework.http.HttpMethod.OPTIONS;
 
 @Order(3)
 @Configuration
@@ -50,6 +51,7 @@ public class CommonsConfigurationAdapter extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(entryPoint)
                 .and()
                 .authorizeRequests()
+                .antMatchers(OPTIONS).permitAll()
                 .antMatchers("/v1/common/**").hasAnyRole(LIBRARIAN.asUserRole(), USER.asUserRole());
     }
 }

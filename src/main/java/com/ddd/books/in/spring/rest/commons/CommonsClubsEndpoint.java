@@ -24,8 +24,9 @@ public class CommonsClubsEndpoint {
     }
 
     @RequestMapping(value = "", method = GET)
-    public List<ClubInfo> getAll(final @RequestParam(value = "name", required = false) String name,
-                                 final @RequestParam(value = "topic", required = false) String topic) {
+    public List<ClubInfo> getAll(
+            final @RequestParam(value = "name", required = false) String name,
+            final @RequestParam(value = "topic", required = false) String topic) {
         return service.readAll(name, topic);
     }
 

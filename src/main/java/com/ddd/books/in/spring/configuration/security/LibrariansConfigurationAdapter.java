@@ -11,6 +11,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.session.SessionManagementFilter;
 
 import static com.ddd.books.in.spring.configuration.security.SecurityRole.LIBRARIAN;
+import static org.springframework.http.HttpMethod.OPTIONS;
 import static org.springframework.http.HttpMethod.POST;
 
 @Order(2)
@@ -45,6 +46,7 @@ public class LibrariansConfigurationAdapter extends WebSecurityConfigurerAdapter
                 .exceptionHandling().authenticationEntryPoint(entryPoint)
                 .and()
                 .authorizeRequests()
+                .antMatchers(OPTIONS).permitAll()
                 .antMatchers(POST, "/v1/librarians/login").permitAll()
                 .antMatchers("/v1/librarians/**").hasRole(LIBRARIAN.asUserRole());
     }
